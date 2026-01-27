@@ -11,34 +11,33 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                     <div>
                         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                            John Doe
+                            <?= $user['name'] ?? 'N/A' ?>
                         </h1>
                         <p class="text-gray-500 dark:text-gray-400">
-                            Web Developer
+                           <?= $user['username'] ?>
                         </p>
                     </div>
 
-                    <button class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition">
+                    <a href="/write" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition">
                         <i class="fa-solid fa-feather-pointed mr-1"></i> Write
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Bio -->
                 <p class="text-gray-600 dark:text-gray-400 max-w-2xl mb-6">
-                    Backend-focused developer writing about PHP architecture, clean code,
-                    and scalable web systems.
+                    <?= $user['bio'] ?? 'No bio provided.' ?>
                 </p>
 
                 <!-- Stats -->
                 <div class="flex gap-8 text-sm">
                     <div>
-                        <span class="font-semibold text-gray-900 dark:text-white">142</span>
+                        <span class="font-semibold text-gray-900 dark:text-white"> <?= count($posts) ?> </span>
                         <span class="text-gray-500 dark:text-gray-400 ml-1">Posts</span>
                     </div>
-                    <div>
+                    <!-- <div>
                         <span class="font-semibold text-gray-900 dark:text-white">2.8K</span>
                         <span class="text-gray-500 dark:text-gray-400 ml-1">Followers</span>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
@@ -49,22 +48,10 @@
     <div class="mb-8">
         <div class="border-b border-gray-200 dark:border-slate-700">
             <nav class="flex space-x-8">
-                <button
-                    class="tab-button py-4 px-1 border-b-2 border-purple-600 text-purple-600 dark:text-purple-400 font-medium flex items-center gap-2">
+                <button class="tab-button py-4 px-1 border-b-2 border-purple-600 text-purple-600 dark:text-purple-400 font-medium flex items-center gap-2">
                     <i class="fas fa-newspaper"></i>
                     Posts
-                    <span
-                        class="ml-2 bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-300 text-xs px-2 py-1 rounded-full">142</span>
-                </button>
-                <button
-                    class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 font-medium flex items-center gap-2">
-                    <i class="fas fa-star"></i>
-                    Featured
-                </button>
-                <button
-                    class="tab-button py-4 px-1 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 font-medium flex items-center gap-2">
-                    <i class="fas fa-bookmark"></i>
-                    Saved
+                    <span class="ml-2 bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-300 text-xs px-2 py-1 rounded-full"> <?= count($posts) ?> </span>
                 </button>
             </nav>
         </div>

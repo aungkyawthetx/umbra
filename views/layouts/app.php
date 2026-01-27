@@ -48,7 +48,7 @@
                     </a>
                     
                     <?php if(is_logged_in()): ?>
-                        <a href="/profile?username=john" 
+                        <a href="/profile?username=<?= $_SESSION['user']['username'] ?>" 
                             class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
                             <span class="flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
