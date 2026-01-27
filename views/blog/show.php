@@ -9,7 +9,7 @@
         <p class="text-sm text-neutral-500 dark:text-gray-400">
             Posted on: <?= date('F j, Y', strtotime($post['created_at'])) ?>
         </p>
-        <a href="/" class="text-gray-800 font-medium hover:underline dark:text-gray-300">Back</a>
+        <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="text-gray-800 font-medium hover:underline dark:text-gray-300">Back</a>
     </div>
 
     <?php if ($post['cover_image']): ?>

@@ -8,10 +8,17 @@ class BlogController extends Controller
     public function index()
     {
         $db = Database::connect();
-        $posts = $db->query("SELECT * FROM posts ORDER BY created_at DESC")
-                    ->fetchAll(PDO::FETCH_ASSOC);
+        $posts = $db->query("SELECT * FROM posts ORDER BY created_at DESC LIMIT 3")->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view('blog/index', compact('posts'));
+    }
+
+    public function posts()
+    {
+        $db = Database::connect();
+        $posts = $db->query("SELECT * FROM posts ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->view('posts/index', compact('posts'));
     }
 
     public function show()

@@ -10,13 +10,15 @@ function timeAgo($datetime) {
 
 <?php ob_start(); ?>
 
+<?php include __DIR__ . '/hero.php' ?>
+
 <div class="mb-12">
     <h1 class="text-4xl font-bold text-gray-900 mb-4 dark:text-white">Latest Writings</h1>
     <p class="text-gray-600 dark:text-gray-300">Thoughtful stories and insights from the community</p>
 </div>
 
 <!-- Blog Posts Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
     <?php foreach ($posts as $post): ?>
         <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
             <div class="h-48 overflow-hidden bg-gray-100">
@@ -57,12 +59,6 @@ function timeAgo($datetime) {
             </div>
         </article>
     <?php endforeach; ?>
-</div>
-
-<div class="mt-16 text-center">
-    <button class="px-8 py-3 border-2 border-gray-200 text-gray-700 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-all font-medium dark:bg-gray-300 dark:border-none dark:hover:bg-gray-400">
-        Load More
-    </button>
 </div>
 
 <?php
