@@ -77,7 +77,7 @@
     </div>
 
     <!-- Empty State -->
-    <?php if (!empty($posts)): ?>
+    <?php if (empty($posts)): ?>
     <div class="text-center py-20">
         <div class="w-24 h-24 mx-auto mb-6 text-gray-300 dark:text-gray-700">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
