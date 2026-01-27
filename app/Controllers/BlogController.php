@@ -35,11 +35,13 @@ class BlogController extends Controller
 
     public function create()
     {
+        require_auth();
         $this->view('blog/create');
     }
 
     public function store()
     {
+        require_auth();
         $title   = $_POST['title'];
         $content = $_POST['content'];
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
@@ -47,17 +49,11 @@ class BlogController extends Controller
         $imageName = null;
         if (!empty($_FILES['image']['name'])) {
             $imageName = time() . '_' . $_FILES['image']['name'];
-            move_uploaded_file(
-                $_FILES['image']['tmp_name'],
-                __DIR__ . '/../../public/uploads/' . $imageName
-            );
+            move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../../public/uploads/' . $imageName);
         }
 
         $db = Database::connect();
-        $stmt = $db->prepare(
-            "INSERT INTO posts (user_id, title, slug, content, cover_image)
-            VALUES (?, ?, ?, ?, ?)"
-        );
+        $stmt = $db->prepare("INSERT INTO posts (user_id, title, slug, content, cover_image) VALUES (?, ?, ?, ?, ?)");
 
         // TEMP: user_id = 1 (until auth)
         $stmt->execute([1, $title, $slug, $content, $imageName]);

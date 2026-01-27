@@ -47,24 +47,27 @@
                         </span>
                     </a>
                     
-                    <a href="/profile?username=john" 
-                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
-                        <span class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                            Profile
-                        </span>
-                    </a>
-                    
-                    <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2"></div>
+                    <?php if(is_logged_in()): ?>
+                        <a href="/profile?username=john" 
+                            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200">
+                            <span class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                Profile
+                            </span>
+                        </a>
+                        
+                        <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
-                    <div class="flex items-center gap-3 cursor-pointer">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
-                            J
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
+                                <?= strtoupper(substr($_SESSION['user']['username'], 0, 1)) ?>
+                            </div>
+                            <span> <?= $_SESSION['user']['username'] ?> </span>
                         </div>
-                        <span>John</span>
-                    </div>
+                        <a href="/logout">Logout</a>
+                    <?php endif; ?>
                 </nav>
 
                 <!-- Menu Icon -->

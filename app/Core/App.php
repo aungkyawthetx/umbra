@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Helpers/auth.php';
 
 class App
 {
