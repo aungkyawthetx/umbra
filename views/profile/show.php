@@ -18,9 +18,19 @@
                         </p>
                     </div>
 
-                    <a href="/write" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition">
-                        <i class="fa-solid fa-feather-pointed mr-1"></i> Write
+                    <a href="/logout"
+                        class="flex items-center gap-2 px-3 py-2 text-sm font-medium
+                            text-gray-600 dark:text-gray-300
+                            hover:text-gray-900 dark:hover:text-white
+                            hover:bg-gray-100 dark:hover:bg-gray-800
+                            rounded-lg transition">
+                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                        Logout
                     </a>
+
+                    <!-- <a href="/write" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition">
+                        <i class="fa-solid fa-feather-pointed mr-1"></i> Write
+                    </a> -->
                 </div>
 
                 <!-- Bio -->
@@ -34,10 +44,6 @@
                         <span class="font-semibold text-gray-900 dark:text-white"> <?= count($posts) ?> </span>
                         <span class="text-gray-500 dark:text-gray-400 ml-1">Posts</span>
                     </div>
-                    <!-- <div>
-                        <span class="font-semibold text-gray-900 dark:text-white">2.8K</span>
-                        <span class="text-gray-500 dark:text-gray-400 ml-1">Followers</span>
-                    </div> -->
                 </div>
 
             </div>
@@ -88,7 +94,7 @@
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-3">
                             <?= $post['title'] ?>
                         </h2>
-                        <a href="blog.html" class="text-sm font-medium text-blue-500 dark:text-blue-400 hover:underline">
+                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-sm font-medium text-blue-500 dark:text-blue-400 hover:underline">
                             Read more
                         </a>
                     </div>

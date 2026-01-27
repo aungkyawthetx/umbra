@@ -66,7 +66,6 @@
                             </div>
                             <span> <?= $_SESSION['user']['username'] ?> </span>
                         </div>
-                        <a href="/logout">Logout</a>
                     <?php endif; ?>
                 </nav>
 
