@@ -57,7 +57,6 @@
         </div>
     </div>
 
-    <!-- Posts -->
     <div>
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold dark:text-white">Latest Articles</h2>
@@ -65,88 +64,36 @@
 
         <!-- Posts Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
-                <div class="relative overflow-hidden">
-                    <img src="https://img.freepik.com/premium-vector/blog-post-concept-illustration_114360-26355.jpg"
-                        alt="Blog cover" class="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <span class="absolute top-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur px-3 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 rounded-full">
-                        Web Development
-                    </span>
-                </div>
-            
-                <div class="p-6 space-y-4">
-                    <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                        <p class="text-xs text-gray-500 dark:text-gray-400">2 weeks ago • 10 min read</p>
-                        <button class="text-purple-600 dark:text-purple-400">
-                            <i class="fas fa-bookmark"></i>
-                        </button>
+            <?php foreach($posts as $post): ?>
+                <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
+                    <div class="relative overflow-hidden">
+                        <img src="/uploads/<?= $post['cover_image'] ?>"
+                            alt="<?= $post['title'] ?>" class="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     </div>
-                    
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2">
-                        Building a Secure Blog System with Core PHP
-                    </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
-                        A practical guide to structuring a blog platform using core PHP, focusing on security, clean
-                        code, and scalability.
-                    </p>
-
-                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                        <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400 text-sm">
-                            <span class="flex items-center gap-1">
-                                <i class="far fa-heart"></i> 214
-                            </span>
-                            <span class="flex items-center gap-1">
-                                <i class="far fa-comment"></i> 42
-                            </span>
+                
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                            <p class="text-xs text-gray-500 dark:text-gray-400"> 
+                                <?= date('F j, Y', strtotime($post['created_at'])) ?> • 
+                                <?php
+                                    $wordCount = str_word_count(strip_tags($post['content']));
+                                    $readingTime = max(1, ceil($wordCount / 200));
+                                ?>
+                                <span class="text-sm text-gray-400 dark:text-gray-500">
+                                    <?= $readingTime ?> min read
+                                </span>
+                            </p>
                         </div>
+                        
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-3">
+                            <?= $post['title'] ?>
+                        </h2>
                         <a href="blog.html" class="text-sm font-medium text-blue-500 dark:text-blue-400 hover:underline">
-                            Read more →
+                            Read more
                         </a>
                     </div>
-                </div>
-            </article>
-
-            <!-- Card 2 -->
-            <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
-                <div class="relative overflow-hidden">
-                    <img src="https://img.freepik.com/free-vector/blog-illustration-concept_23-2148510961.jpg"
-                        alt="Blog cover" class="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <span class="absolute top-4 left-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur px-3 py-1 text-xs font-medium text-gray-800 dark:text-gray-200 rounded-full">
-                        Life
-                    </span>
-                </div>
-            
-                <div class="p-6 space-y-4">
-                    <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Jan 4, 2026 • 8 min read</p>
-                        <button class="text-purple-600 dark:text-purple-400">
-                            <i class="fas fa-bookmark"></i>
-                        </button>
-                    </div>
-            
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2">
-                        Morning Routines That Boost Productivity
-                    </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
-                        Learn how to create a morning routine that helps you stay focused, energized, and productive all
-                        day.
-                    </p>
-            
-                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                        <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400 text-sm">
-                            <span class="flex items-center gap-1">
-                                <i class="far fa-heart"></i> 214
-                            </span>
-                            <span class="flex items-center gap-1">
-                                <i class="far fa-comment"></i> 42
-                            </span>
-                        </div>
-                        <a href="blog.html" class="text-sm font-medium text-blue-500 dark:text-blue-400 hover:underline">
-                            Read more →
-                        </a>
-                    </div>
-                </div>
-            </article>
+                </article>
+            <?php endforeach ?>
         </div>
     </div>
     </div>
