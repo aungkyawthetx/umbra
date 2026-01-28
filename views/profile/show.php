@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-
+<?php 
+    $isOwnProfile = $authUser && $authUser['id'] === $user['id'];
+?>
 <div class="max-w-6xl mx-auto">
     <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-8 mb-12">
         <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
@@ -17,15 +19,16 @@
                            <?= $user['username'] ?>
                         </p>
                     </div>
-
-                    <a href="/logout" class="flex items-center gap-2 px-3 py-2 text-sm font-medium
-                            text-gray-600 dark:text-gray-300
-                            hover:text-gray-900 dark:hover:text-white
-                            hover:bg-gray-100 dark:hover:bg-gray-800
-                            rounded-lg transition">
-                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                        Logout
-                    </a>
+                    <?php if($isOwnProfile): ?>
+                        <a href="/logout" class="flex items-center gap-2 px-3 py-2 text-sm font-medium
+                                text-gray-600 dark:text-gray-300
+                                hover:text-gray-900 dark:hover:text-white
+                                hover:bg-gray-100 dark:hover:bg-gray-800
+                                rounded-lg transition">
+                            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                            Logout
+                        </a>
+                    <?php endif ?>
                 </div>
 
                 <!-- Bio -->

@@ -23,7 +23,7 @@ class BlogController extends Controller
                 users.username,
                 users.name
             FROM posts
-            JOIN users ON users.id = posts.user_id
+            LEFT JOIN users ON users.id = posts.user_id
             ORDER BY posts.created_at DESC
         ";
         $posts = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -64,11 +64,9 @@ class BlogController extends Controller
 
         $db = Database::connect();
         $stmt = $db->prepare("INSERT INTO posts (user_id, title, slug, content, cover_image) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$_SESSION['user']['id'], $title, $slug, $content, $imageName]);
 
-        // TEMP: user_id = 1 (until auth)
-        $stmt->execute([1, $title, $slug, $content, $imageName]);
-
-        header("Location: /");
+        header("Location: /posts");
     }
 
 }
