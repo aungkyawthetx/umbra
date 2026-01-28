@@ -4,13 +4,13 @@
             <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
             <span class="text-sm font-medium text-gray-700 dark:text-gray-300">UMBRA BLOG</span>
         </div>
-        <h1 class="text-5xl md:text-6xl font-extrabold leading-tight text-gray-900 dark:text-white mb-6">
-            <span class="bg-linrar-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight text-gray-900 dark:text-white mb-6">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
                 Write. Reflect.
             </span>
             <span class="text-gray-900 dark:text-gray-300 mt-2">Share.</span>
         </h1>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+        <p class="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
             A minimalist space to publish your thoughts, essays, and ideas without distractions.
         </p>
 

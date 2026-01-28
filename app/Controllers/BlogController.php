@@ -16,7 +16,17 @@ class BlogController extends Controller
     public function posts()
     {
         $db = Database::connect();
-        $posts = $db->query("SELECT * FROM posts ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "
+            SELECT
+                posts.*,
+                users.id AS author_id,
+                users.username,
+                users.name
+            FROM posts
+            JOIN users ON users.id = posts.user_id
+            ORDER BY posts.created_at DESC
+        ";
+        $posts = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view('posts/index', compact('posts'));
     }

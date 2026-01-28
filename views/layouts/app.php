@@ -6,6 +6,7 @@
     <title>Umbra</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="./assets/css/output.css" rel="stylesheet">
+    <link href="./assets/css/input.css" rel="stylesheet">
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-slate-100 theme-transition">
