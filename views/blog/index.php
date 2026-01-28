@@ -1,15 +1,4 @@
-<?php
-function timeAgo($datetime) {
-    $time = time() - strtotime($datetime);
-    if ($time < 60) return 'just now';
-    if ($time < 3600) return floor($time / 60) . ' minutes ago';
-    if ($time < 86400) return floor($time / 3600) . ' hours ago';
-    return floor($time / 86400) . ' days ago';
-}
-?>
-
 <?php ob_start(); ?>
-
 <?php include __DIR__ . '/hero.php' ?>
 
 <div class="mb-12">

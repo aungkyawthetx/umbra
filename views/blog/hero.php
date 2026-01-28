@@ -15,9 +15,17 @@
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <a href="/write" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition">
-                Start Writing
-            </a>
+            <?php if(is_logged_in()): ?>
+                <a href="/write" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition">
+                    Start Writing
+                </a>
+            <?php endif; ?>
+
+            <?php if(!is_logged_in()): ?>
+                <a href="/register" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition">
+                    Get Started
+                </a>
+            <?php endif; ?>
             <a href="/posts" class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                 Explore Posts
             </a>
