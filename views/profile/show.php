@@ -66,32 +66,47 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach($posts as $post): ?>
-                <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
-                    <div class="relative overflow-hidden">
-                        <img src="/uploads/<?= $post['cover_image'] ?>"
-                            alt="<?= $post['title'] ?>" class="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <article class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-lg dark:hover:shadow-blue-500/10">
+                    <!-- Cover -->
+                    <div class="relative h-52 overflow-hidden">
+                        <img 
+                            src="/uploads/<?= htmlspecialchars($post['cover_image']) ?>" 
+                            alt="<?= htmlspecialchars($post['title']) ?>" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                     </div>
-                
+                    <!-- Content -->
                     <div class="p-6 space-y-4">
                         <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                            <p class="text-xs text-gray-500 dark:text-gray-400"> 
-                                <?= date('F j, Y', strtotime($post['created_at'])) ?> • 
-                                <?php
-                                    $wordCount = str_word_count(strip_tags($post['content']));
-                                    $readingTime = max(1, ceil($wordCount / 200));
-                                ?>
-                                <span class="text-sm text-gray-400 dark:text-gray-500">
-                                    <?= $readingTime ?> min read
-                                </span>
-                            </p>
+                            <span>
+                                <?= date('F j, Y', strtotime($post['created_at'])) ?>
+                            </span>
+                            <?php
+                                $wordCount = str_word_count(strip_tags($post['content']));
+                                $readingTime = max(1, ceil($wordCount / 200));
+                            ?>
+                            <span><?= $readingTime ?> min read</span>
                         </div>
-                        
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-3">
-                            <?= $post['title'] ?>
+                        <!-- Title -->
+                        <h2 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2">
+                            <?= htmlspecialchars($post['title']) ?>
                         </h2>
-                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-sm font-medium text-blue-500 dark:text-blue-400 hover:underline">
-                            Read more
-                        </a>
+                        <!-- Actions -->
+                        <div class="flex items-center justify-between pt-2">
+                            <a  href="/blog?slug=<?= $post['slug'] ?>" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                                Read more
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                            <!-- Edit (author only) -->
+                            <?php if (is_logged_in() && $_SESSION['user']['id'] === $post['user_id']): ?>
+                                <a  href="/blog/edit?id=<?= $post['id'] ?>" class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                                    Edit
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </article>
             <?php endforeach ?>
