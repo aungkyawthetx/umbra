@@ -1,6 +1,6 @@
 <?php ob_start(); ?>
 
-<div class="max-w-5xl mx-auto px-4 sm:px-6">
+<div class="max-w-5xl mx-auto px-0 md:px-6">
     <div class="mb-12">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Posts
@@ -38,7 +38,7 @@
 
             <div class="px-2">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-medium dark:text-gary-300"> <?= $_SESSION['user']['fullname'] ?? 'N/A' ?> </h3>
+                    <h3 class="text-xl font-medium dark:text-gary-300"> <?= $post['name'] ?? 'N/A' ?> </h3>
                     <time datetime="<?= date('Y-m-d', strtotime($post['created_at'])) ?>" class="text-sm text-gray-500 dark:text-gray-400">
                         <?= date('F j, Y', strtotime($post['created_at'])) ?>
                     </time>

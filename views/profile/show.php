@@ -3,7 +3,7 @@
 <div class="max-w-6xl mx-auto">
     <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-8 mb-12">
         <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-            <div class="w-28 h-28 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
+            <div class="w-28 h-28 rounded-full bg-linear-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
                 <span class="text-5xl"> <?= strtoupper(substr($_SESSION['user']['fullname'], 0, 2)) ?> </span>
             </div>
             <!-- Info -->
@@ -18,8 +18,7 @@
                         </p>
                     </div>
 
-                    <a href="/logout"
-                        class="flex items-center gap-2 px-3 py-2 text-sm font-medium
+                    <a href="/logout" class="flex items-center gap-2 px-3 py-2 text-sm font-medium
                             text-gray-600 dark:text-gray-300
                             hover:text-gray-900 dark:hover:text-white
                             hover:bg-gray-100 dark:hover:bg-gray-800
@@ -27,10 +26,6 @@
                         <i class="fa-solid fa-right-from-bracket text-xs"></i>
                         Logout
                     </a>
-
-                    <!-- <a href="/write" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition">
-                        <i class="fa-solid fa-feather-pointed mr-1"></i> Write
-                    </a> -->
                 </div>
 
                 <!-- Bio -->
@@ -45,7 +40,6 @@
                         <span class="text-gray-500 dark:text-gray-400 ml-1">Posts</span>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -62,13 +56,11 @@
             </nav>
         </div>
     </div>
-
-    <div>
+    <?php if(!empty($posts)): ?>
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold dark:text-white">Latest Articles</h2>
         </div>
 
-        <!-- Posts Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php foreach($posts as $post): ?>
                 <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
@@ -101,8 +93,10 @@
                 </article>
             <?php endforeach ?>
         </div>
-    </div>
-    </div>
+    <?php else: ?>
+        <p class="text-sm text-gray-600 dark:text-gray-300 italic">No Post yet.</p>
+    <?php endif ?>
+</div>
 
 <?php
 $content = ob_get_clean();

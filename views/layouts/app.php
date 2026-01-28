@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="A minimalist space to publish your thoughts, essays, and ideas without distractions.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Umbra</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./assets/css/output.css" rel="stylesheet">
+    <link href="./assets/css/input.css" rel="stylesheet">
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-slate-100 theme-transition">
@@ -62,7 +63,7 @@
                         <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
+                            <div class="w-8 h-8 rounded-full bg-linear-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
                                 <?= strtoupper(substr($_SESSION['user']['username'], 0, 1)) ?>
                             </div>
                             <span> <?= $_SESSION['user']['username'] ?> </span>
@@ -99,12 +100,14 @@
                         </svg>
                         Posts
                     </a>
-                    <a href="/profile?username=john" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        Profile
-                    </a>
+                    <?php if(is_logged_in()): ?>
+                        <a href="/profile?username=john" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Profile
+                        </a>
+                    <?php endif ?>
                 </div>
             </div>
         </div>
