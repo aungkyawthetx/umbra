@@ -116,9 +116,10 @@
     <main class="flex-1 max-w-5xl mx-auto px-6 pt-28 pb-10 w-full">
         <?= $content ?>
     </main>
-    <footer class="text-center text-sm text-neutral-500 py-10 dark:text-blue-300">
-        &copy; <?=  date('Y') ?> <span class="italic">Umbra</span>. Built for thinking, not scrolling.
+    <footer class="text-center text-xs tracking-wide text-neutral-500 py-10 dark:text-blue-300">
+        &copy; <?= date('Y') ?> Umbra · Built for thinking
     </footer>
+
 
     <script>
         document.getElementById('mobile-menu-button').addEventListener('click', function() {

@@ -34,7 +34,7 @@
             >
         </div>
 
-        <button class="w-full bg-blue-400 hover:bg-blue-500 text-white py-3 rounded-lg font-medium transition">
+        <button class="w-full bg-blue-400 hover:bg-blue-500 text-white py-3 rounded-lg font-medium transition cursor-pointer">
             Login
         </button>
 
