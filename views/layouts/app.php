@@ -61,7 +61,7 @@
                         <div class="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
+                            <div class="w-8 h-8 rounded-full bg-linear-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
                                 <?= strtoupper(substr($_SESSION['user']['username'], 0, 1)) ?>
                             </div>
                             <span> <?= $_SESSION['user']['username'] ?> </span>
