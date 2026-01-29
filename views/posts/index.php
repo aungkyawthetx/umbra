@@ -45,13 +45,17 @@
                 </div>
 
                 <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">
-                    <a href="/blog?slug=<?= $post['slug'] ?>">
-                        <?= htmlspecialchars($post['title']) ?>
-                    </a>
+                    <?php if(isset($post['title'])): ?>
+                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-xl md:text-3xl text-gray-800 dark:text-gray-300">
+                            <?= htmlspecialchars($post['title']) ?>
+                        </a>
+                    <?php else: ?>
+                        <p class="italic font-normal text-gray-700 dark:text-gray-300">Title Not Found.</p>
+                    <?php endif ?>
                 </h2>
 
-                <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-6 max-w-3xl">
-                    <?= htmlspecialchars(substr($post['content'], 0, 1000)) ?> ...
+                <p class="blog-content text-gray-800 dark:text-gray-300 text-md md:text-lg leading-relaxed mb-6">
+                    <?= htmlspecialchars(mb_substr($post['content'], 0, 400, 'UTF-8')) ?> ...
                 </p>
 
                 <!-- Read More -->

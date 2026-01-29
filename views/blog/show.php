@@ -1,9 +1,13 @@
 <?php ob_start(); ?>
 
 <article class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-semibold dark:text-gray-300 leading-tight mb-6">
-        <?= $post['title'] ?>
-    </h1>
+    <?php if(isset($post['title'])): ?>
+        <h1 class="text-xl md:text-3xl text-gray-800 font-medium dark:text-gray-300 leading-snug mb-4">
+            <?= $post['title'] ?>
+        </h1>
+    <?php else: ?>
+        <p class="italic text-xl md:text-3xl text-gray-700 dark:text-gray-300 mb-4">Title Not Found.</p>
+    <?php endif ?>
 
     <div class="flex items-center justify-between mb-10">
         <div>
@@ -19,9 +23,10 @@
         <img src="/uploads/<?= $post['cover_image'] ?>" class="rounded mb-10">
     <?php endif; ?>
 
-    <div class="prose prose-neutral dark:text-gray-300 max-w-none">
-        <?= nl2br($post['content']) ?>
-    </div>
+    <p class="blog-content prose prose-neutral dark:prose-invert font-medium max-w-none leading-relaxed text-justify prose-p:my-6 prose-p:leading-8 prose-headings:mt-8 prose-headings:mb-4 prose-li:my-2"> 
+        <?= nl2br($post['content']) ?> 
+    </p>
+
 </article>
 
 <?php
