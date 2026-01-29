@@ -44,18 +44,18 @@
                     </time>
                 </div>
 
-                <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">
+                <h2 class="text-lg md:text-3xl font-medium text-gray-900 dark:text-gray-100 mb-4 transition-colors">
                     <?php if(isset($post['title'])): ?>
-                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-xl md:text-3xl text-gray-800 dark:text-gray-300">
+                        <a href="/blog?slug=<?= $post['slug'] ?>">
                             <?= htmlspecialchars($post['title']) ?>
                         </a>
                     <?php else: ?>
-                        <p class="italic font-normal text-gray-700 dark:text-gray-300">Title Not Found.</p>
+                        <p class="italic font-normal text-gray-700 dark:text-gray-100">Title Not Found.</p>
                     <?php endif ?>
                 </h2>
 
                 <p class="blog-content text-gray-800 dark:text-gray-300 text-md md:text-lg leading-relaxed mb-6">
-                    <?= htmlspecialchars(mb_substr($post['content'], 0, 400, 'UTF-8')) ?> ...
+                    <?= htmlspecialchars(mb_substr($post['content'], 0, 300, 'UTF-8')) ?> ...
                 </p>
 
                 <!-- Read More -->
