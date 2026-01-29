@@ -102,7 +102,7 @@
                             </a>
                             <!-- Edit (author only) -->
                             <?php if (is_logged_in() && $_SESSION['user']['id'] === $post['user_id']): ?>
-                                <a  href="/blog/edit?id=<?= $post['id'] ?>" class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                                <a  href="/post/edit?id=<?= $post['id'] ?>" class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                                     Edit
                                 </a>
                             <?php endif; ?>

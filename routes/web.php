@@ -6,6 +6,7 @@ $router->get('/write', 'BlogController@create');
 $router->post('/write', 'BlogController@store');
 $router->get('/profile', 'ProfileController@show');
 $router->get('/posts', 'BlogController@posts');
+$router->get('/post/edit', 'BlogController@edit');
 
 // auth routes 
 $router->get('/register', 'AuthController@registerForm');
