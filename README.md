@@ -31,27 +31,6 @@ It focuses on clarity, reading experience, and personal expression.
 
 ---
 
-## Project Structure
-umbra/
-├── app/
-│ ├── Core/
-│ │ ├── App.php
-│ │ ├── Router.php
-│ │ ├── Controller.php
-│ │ └── Database.php
-│ ├── Controllers/
-│ └── Helpers/
-├── views/
-│ ├── layouts/
-│ ├── blog/
-│ ├── posts/
-│ ├── profile/
-│ └── auth/
-├── public/
-│ ├── uploads/
-│ └── index.php
-└── README.md
-
 ## Update Database and Run the Project
 
 - php -S localhost:8000 -t public
