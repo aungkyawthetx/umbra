@@ -50,7 +50,6 @@ umbra/
 ├── public/
 │ ├── uploads/
 │ └── index.php
-├── .htaccess
 └── README.md
 
 ## Update Database and Run the Project
