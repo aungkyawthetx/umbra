@@ -5,7 +5,7 @@
 <div class="max-w-6xl mx-auto">
     <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-8 mb-12">
         <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-            <div class="w-28 h-28 rounded-full bg-linear-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
+            <div class="w-28 h-28 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
                 <span class="text-5xl"> <?= strtoupper(substr($_SESSION['user']['fullname'], 0, 2)) ?> </span>
             </div>
             <!-- Info -->
@@ -101,12 +101,12 @@
                                 </svg>
                             </a>
                             <!-- Edit (author only) -->
-                            <?php if (is_logged_in() && $_SESSION['user']['id'] === $post['user_id']): ?>
+                            <!-- <?php if (is_logged_in() && $_SESSION['user']['id'] === $post['user_id']): ?>
                                 <a  href="/blog/edit?id=<?= $post['id'] ?>" class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                                     Edit
                                 </a>
                             <?php endif; ?>
-                        </div>
+                        </div> -->
                     </div>
                 </article>
             <?php endforeach ?>

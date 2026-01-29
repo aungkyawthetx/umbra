@@ -37,7 +37,7 @@
             </div>
 
             <label class="flex items-center gap-3 text-sm text-neutral-600 dark:text-gray-400 cursor-pointer">
-                <span class="px-3 py-1.5 border rounded hover:bg-neutral-100 dark:hover:bg-gray-700 dark:border-gray-600">
+                <span class="px-3 py-1.5 border border-gray-300 rounded hover:bg-neutral-100 dark:hover:bg-gray-700 dark:border-gray-600">
                     Attach image
                 </span>
                 <span class="file-name text-neutral-400">No file selected</span>
