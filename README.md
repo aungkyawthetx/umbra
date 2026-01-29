@@ -9,15 +9,15 @@ It focuses on clarity, reading experience, and personal expression.
 
 ## Features
 
-- ✍️ Write and publish blog posts with cover images
-- 📖 Read posts from other writers
-- 👤 Public author profiles
-- 📚 Add authors to **Reading List**
-- ❤️ Like posts
-- 💬 Comment on posts
-- 🌙 Dark mode support
-- 🔐 Authentication (Login & Register)
-- 🧱 Simple MVC-style mini framework (no heavy frameworks)
+- Write and publish blog posts with cover images
+- Read posts from other writers
+- Public author profiles
+- Add authors to **Reading List**
+- Like posts
+- Comment on posts
+- Dark mode support
+- Authentication (Login & Register)
+- Simple MVC-style mini framework (no heavy frameworks)
 
 ---
 
