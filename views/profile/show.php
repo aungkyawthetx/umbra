@@ -1,6 +1,10 @@
 <?php ob_start(); ?>
 <?php 
     $isOwnProfile = $authUser && $authUser['id'] === $user['id'];
+    $db = Database::connect();
+    $stmt = $db->prepare("SELECT 1 FROM reading_lists WHERE reader_id = ? AND author_id = ?");
+    $stmt->execute([$_SESSION['user']['id'], $user['id']]);
+    $isFollowing = $stmt->fetch();
 ?>
 <div class="max-w-6xl mx-auto">
     <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-8 mb-12">
@@ -28,6 +32,19 @@
                             <i class="fa-solid fa-right-from-bracket text-xs"></i>
                             Logout
                         </a>
+                    <?php else: ?>
+                        <?php if ($isFollowing): ?>
+                            <button disabled class="px-3 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-100 rounded-lg font-medium">
+                                In Reading List
+                            </button>
+                        <?php else: ?>
+                            <form action="/reading-list" method="POST">
+                                <input type="hidden" name="username" value="<?= $user['username'] ?>">
+                                <button class="cursor-pointer px-3 py-2 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+                                    Add to Reading List
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     <?php endif ?>
                 </div>
 
