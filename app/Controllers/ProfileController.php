@@ -8,6 +8,7 @@ class ProfileController extends Controller
     public function show()
     {
         $username = $_GET['username'] ?? null;
+        $authUser = auth();
         if (!$username) {
             http_response_code(400);
             echo "Username is required";
@@ -27,6 +28,6 @@ class ProfileController extends Controller
         $stmt->execute([$user['id']]);
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->view('profile/show', compact('user', 'posts'));
+        $this->view('profile/show', compact('user', 'posts', 'authUser'));
     }
 }

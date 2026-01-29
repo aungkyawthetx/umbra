@@ -71,10 +71,10 @@
 
             <!-- Actions -->
             <div class="flex justify-end gap-3 pt-8 border-t border-gray-100 dark:border-gray-700">
-                <button type="reset" class="px-6 py-2 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
+                <button type="reset" class="cursor-pointer px-6 py-2 border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors font-medium">
                     Clear All
                 </button>
-                <button type="submit" class="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg dark:shadow-gray-900/30 transition-all active:scale-[0.98] flex items-center gap-3">
+                <button type="submit" class="cursor-pointer px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg dark:shadow-gray-900/30 transition-all active:scale-[0.98] flex items-center gap-3">
                     <i class="fa-solid fa-paper-plane"></i>
                     Publish
                 </button>
