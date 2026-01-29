@@ -106,12 +106,12 @@
                             <span><?= $readingTime ?> min read</span>
                         </div>
                         <!-- Title -->
-                        <h2 class="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2">
-                            <?= htmlspecialchars($post['title']) ?>
+                        <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-300 leading-snug line-clamp-2">
+                            <?= htmlspecialchars($post['title'] ?? 'N/A') ?>
                         </h2>
                         <!-- Actions -->
-                        <div class="flex items-center justify-between pt-2">
-                            <a  href="/blog?slug=<?= $post['slug'] ?>" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                        <div class="flex items-center justify-between">
+                            <a  href="/blog?slug=<?= $post['slug'] ?>" class="inline-flex items-center gap-2 text-sm font-medium text-blue-400 dark:text-blue-400 hover:underline">
                                 Read more
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
