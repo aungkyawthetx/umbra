@@ -6,10 +6,13 @@
     </h1>
 
     <div class="flex items-center justify-between mb-10">
-        <p class="text-sm text-neutral-500 dark:text-gray-400">
-            Posted on: <?= date('F j, Y', strtotime($post['created_at'])) ?>
-        </p>
-        <a href="<?= $_SERVER['HTTP_REFERER'] ?>" class="text-gray-800 font-medium hover:underline dark:text-gray-300">Back</a>
+        <div>
+            <h2 class="font-medium text-md dark:text-gray-300"> <?= $post['author_name'] ?> </h2>
+            <p class="text-sm text-neutral-500 dark:text-gray-400">
+                Posted on: <?= date('F j, Y', strtotime($post['created_at'])) ?>
+            </p>
+        </div>
+        <a href="/posts" class="text-gray-800 font-medium hover:underline dark:text-gray-300">Back</a>
     </div>
 
     <?php if ($post['cover_image']): ?>

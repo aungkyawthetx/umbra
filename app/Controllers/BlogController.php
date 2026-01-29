@@ -36,7 +36,7 @@ class BlogController extends Controller
         $slug = $_GET['slug'];
 
         $db = Database::connect();
-        $stmt = $db->prepare("SELECT * FROM posts WHERE slug = ?");
+        $stmt = $db->prepare("SELECT posts.*, users.name AS author_name FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE slug = ?");
         $stmt->execute([$slug]);
         $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
