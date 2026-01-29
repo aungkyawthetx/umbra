@@ -54,7 +54,8 @@ class BlogController extends Controller
         require_auth();
         $title   = $_POST['title'];
         $content = $_POST['content'];
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+        $slug = trim(preg_replace('/[^\p{L}\p{N}]+/u', '-', $title));
+        $slug = mb_strtolower($slug, 'UTF-8');
         // Image upload
         $imageName = null;
         if (!empty($_FILES['image']['name'])) {
