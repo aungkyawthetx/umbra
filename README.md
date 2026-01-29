@@ -3,11 +3,11 @@
 Umbra is a minimalist blog platform built with **pure PHP** and **Tailwind CSS**, designed for thoughtful writing rather than endless scrolling.  
 It focuses on clarity, reading experience, and personal expression.
 
-> _Built for thinking, not scrolling._
+> _Built for thinking._
 
 ---
 
-## ✨ Features
+## Features
 
 - ✍️ Write and publish blog posts with cover images
 - 📖 Read posts from other writers
@@ -21,7 +21,7 @@ It focuses on clarity, reading experience, and personal expression.
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 - **Backend:** PHP (Vanilla, MVC-style structure)
 - **Database:** MySQL (PDO)
@@ -31,4 +31,28 @@ It focuses on clarity, reading experience, and personal expression.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
+umbra/
+├── app/
+│ ├── Core/
+│ │ ├── App.php
+│ │ ├── Router.php
+│ │ ├── Controller.php
+│ │ └── Database.php
+│ ├── Controllers/
+│ └── Helpers/
+├── views/
+│ ├── layouts/
+│ ├── blog/
+│ ├── posts/
+│ ├── profile/
+│ └── auth/
+├── public/
+│ ├── uploads/
+│ └── index.php
+├── .htaccess
+└── README.md
+
+## Update Database and Run the Project
+
+- php -S localhost:8000 -t public
