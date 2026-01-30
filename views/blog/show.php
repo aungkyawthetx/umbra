@@ -1,14 +1,10 @@
 <?php ob_start(); ?>
 
 <article class="max-w-3xl mx-auto">
-    <?php if(isset($post['title'])): ?>
-        <h1 class="text-xl md:text-2xl text-gray-800 font-medium dark:text-gray-100 leading-snug mb-4">
-            <?= $post['title'] ?>
-        </h1>
-    <?php else: ?>
-        <p class="italic text-xl md:text-3xl text-gray-700 dark:text-gray-200 mb-4">Title Not Found.</p>
-    <?php endif ?>
-
+    <h1 class="text-xl md:text-2xl text-gray-800 font-medium dark:text-gray-100 leading-snug mb-4">
+        <?= $post['title'] ?>
+    </h1>
+    
     <div class="flex items-center justify-between mb-10">
         <div>
             <h2 class="font-medium text-md dark:text-gray-50"> <?= $post['author_name'] ?> </h2>
