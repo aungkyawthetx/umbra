@@ -34,12 +34,22 @@ class BlogController extends Controller
     public function show()
     {
         $slug = $_GET['slug'];
-
+        if (!$slug) {
+            http_response_code(404);
+            require __DIR__ . '/../../views/errors/404.php';
+            return;
+        }
         $db = Database::connect();
         $stmt = $db->prepare("SELECT posts.*, users.name AS author_name FROM posts LEFT JOIN users ON posts.user_id = users.id WHERE slug = ?");
         $stmt->execute([$slug]);
         $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$post) {
+            http_response_code(404);
+            require __DIR__ . '/../../views/errors/404.php';
+            return;
+        }
+        
         $this->view('blog/show', compact('post'));
     }
 
