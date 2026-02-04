@@ -19,3 +19,5 @@ $router->get('/logout', 'AuthController@logout');
 
 // terms
 $router->get('/terms-and-conditions', 'UserController@terms');
+
+$router->post('/reading-list', 'ProfileController@store');

@@ -30,4 +30,39 @@ class ProfileController extends Controller
 
         $this->view('profile/show', compact('user', 'posts', 'authUser'));
     }
+
+    public function store()
+    {
+        require_auth();
+        $username = $_POST['username'] ?? null;
+        if(!$username) {
+            http_response_code(400);
+            echo "Author username required";
+            return;
+        }
+        $db = Database::connect();
+
+        // Get author
+        $stmt = $db->prepare("SELECT id FROM users WHERE username = ? LIMIT 1");
+        $stmt->execute([$username]);
+        $author = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$author) {
+            http_response_code(404);
+            echo "Author not found";
+            return;
+        }
+
+        $readerId = $_SESSION['user']['id'];
+        // Prevent following yourself
+        if ($readerId == $author['id']) {
+            header("Location: /profile?username=$username");
+            return;
+        }
+
+        $stmt = $db->prepare("INSERT IGNORE INTO reading_lists (reader_id, author_id) VALUES (?, ?)");
+        $stmt->execute([$readerId, $author['id']]);
+        
+        header("Location: /profile?username=$username");
+    }
 }

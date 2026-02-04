@@ -14,8 +14,7 @@
                 <div class="h-48 overflow-hidden bg-gray-100">
                     <a href="/blog?slug=<?= $post['slug'] ?>">
                         <?php if (!empty($post['cover_image'])): ?>
-                            <img 
-                                src="/uploads/<?= htmlspecialchars($post['cover_image']) ?>" 
+                            <img  src="/uploads/<?= htmlspecialchars($post['cover_image']) ?>" 
                                 alt="<?= htmlspecialchars($post['title']) ?>"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 loading="lazy"
@@ -36,13 +35,13 @@
                     </p>
 
                     <a href="/blog?slug=<?= $post['slug'] ?>">
-                        <h2 class="text-xl dark:text-gray-300 font-semibold text-gray-900 mb-3 transition-colors">
-                            <?= htmlspecialchars($post['title']) ?>
+                        <h2 class="text-lg md:text-xl text-gray-800 dark:text-gray-300 font-semibold mb-3 transition-colors">
+                            <?= htmlspecialchars($post['title'] ?? 'N/A') ?>
                         </h2>
                     </a>
                     
-                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-blue-500 hover:text-blue-600 font-medium text-sm transition-all">
+                    <div class="flex items-center justify-between">
+                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-blue-400 hover:text-blue-500 font-medium text-sm transition-all">
                             Read more
                         </a>
                     </div>
