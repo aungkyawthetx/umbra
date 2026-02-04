@@ -2,6 +2,7 @@
 
 <div class="min-h-[70vh] flex items-center justify-center">
     <form method="POST" class="w-full max-w-md bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl p-8 shadow-sm">
+        <?= csrf_field() ?>
         <h1 class="text-2xl font-semibold mb-8 text-center">
             Welcome back
         </h1>

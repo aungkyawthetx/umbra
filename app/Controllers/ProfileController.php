@@ -24,8 +24,18 @@ class ProfileController extends Controller
             return;
         }
 
-        $stmt = $db->prepare("SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC");
-        $stmt->execute([$user['id']]);
+        if ($authUser && (int)$authUser['id'] === (int)$user['id']) {
+            $stmt = $db->prepare("SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC");
+            $stmt->execute([$user['id']]);
+        } else {
+            $stmt = $db->prepare("
+                SELECT * FROM posts 
+                WHERE user_id = ?
+                  AND (status = 'published' OR (status = 'scheduled' AND scheduled_at <= NOW()))
+                ORDER BY created_at DESC
+            ");
+            $stmt->execute([$user['id']]);
+        }
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view('profile/show', compact('user', 'posts', 'authUser'));
@@ -34,6 +44,7 @@ class ProfileController extends Controller
     public function store()
     {
         require_auth();
+        verify_csrf();
         $username = $_POST['username'] ?? null;
         if(!$username) {
             http_response_code(400);
@@ -64,5 +75,38 @@ class ProfileController extends Controller
         $stmt->execute([$readerId, $author['id']]);
         
         header("Location: /profile?username=$username");
+    }
+
+    public function readingList()
+    {
+        require_auth();
+        $db = Database::connect();
+        $readerId = $_SESSION['user']['id'];
+
+        $authorsStmt = $db->prepare("
+            SELECT users.id, users.name, users.username, users.bio
+            FROM reading_lists rl
+            JOIN users ON users.id = rl.author_id
+            WHERE rl.reader_id = ?
+            ORDER BY users.name ASC
+        ");
+        $authorsStmt->execute([$readerId]);
+        $authors = $authorsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $postsStmt = $db->prepare("
+            SELECT posts.*, users.name AS author_name, users.username
+            FROM posts
+            JOIN users ON users.id = posts.user_id
+            WHERE posts.user_id IN (
+                SELECT author_id FROM reading_lists WHERE reader_id = ?
+            )
+            AND (posts.status = 'published' OR (posts.status = 'scheduled' AND posts.scheduled_at <= NOW()))
+            ORDER BY posts.created_at DESC
+            LIMIT 20
+        ");
+        $postsStmt->execute([$readerId]);
+        $posts = $postsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->view('reading-list/index', compact('authors', 'posts'));
     }
 }

@@ -2,26 +2,82 @@
 
 <article class="max-w-3xl mx-auto">
     <h1 class="text-xl md:text-2xl text-gray-800 font-medium dark:text-gray-100 leading-snug mb-4">
-        <?= $post['title'] ?>
+        <?= e($post['title']) ?>
     </h1>
     
     <div class="flex items-center justify-between mb-10">
         <div>
-            <h2 class="font-medium text-md dark:text-gray-50"> <?= $post['author_name'] ?> </h2>
+            <h2 class="font-medium text-md dark:text-gray-50"> <?= e($post['author_name']) ?> </h2>
             <p class="text-sm text-neutral-500 dark:text-gray-300 italic">
-                Posted on: <?= date('F j, Y', strtotime($post['created_at'])) ?>
+                Posted on: <?= date('F j, Y', strtotime($post['published_at'] ?? $post['created_at'])) ?>
             </p>
         </div>
         <a href="/posts" class="text-gray-800 font-medium hover:underline dark:text-gray-100">Back</a>
     </div>
 
     <?php if ($post['cover_image']): ?>
-        <img src="/uploads/<?= $post['cover_image'] ?>" class="rounded mb-10">
+        <img src="/uploads/<?= e($post['cover_image']) ?>" class="rounded mb-10">
     <?php endif; ?>
 
     <p class="blog-content prose prose-neutral dark:prose-invert font-medium max-w-none leading-relaxed text-lg text-justify prose-p:my-6 prose-p:leading-8 prose-headings:mt-8 prose-headings:mb-4 prose-li:my-2"> 
-        <?= nl2br($post['content']) ?> 
+        <?= nl2br(e($post['content'])) ?> 
     </p>
+
+    <?php if (!empty($post['tags'])): ?>
+        <div class="mt-8 flex flex-wrap gap-2">
+            <?php foreach (explode(',', $post['tags']) as $tag): ?>
+                <a href="/posts?tag=<?= urlencode(trim($tag)) ?>" class="text-xs px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                    #<?= e(trim($tag)) ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="mt-10 flex items-center gap-4">
+        <?php if (is_logged_in()): ?>
+            <form method="POST" action="/like" class="inline-flex items-center gap-2">
+                <?= csrf_field() ?>
+                <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
+                <button class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                    <?= $likedByUser ? 'Unlike' : 'Like' ?>
+                </button>
+                <span class="text-sm text-gray-500 dark:text-gray-400"><?= (int)$likesCount ?> likes</span>
+            </form>
+        <?php else: ?>
+            <a href="/login" class="text-sm text-blue-500 hover:underline">Login to like</a>
+            <span class="text-sm text-gray-500 dark:text-gray-400"><?= (int)$likesCount ?> likes</span>
+        <?php endif; ?>
+    </div>
+
+    <div class="mt-12">
+        <h3 class="text-lg font-semibold mb-4">Comments (<?= count($comments) ?>)</h3>
+        <?php if (is_logged_in()): ?>
+            <form method="POST" action="/comment" class="mb-6">
+                <?= csrf_field() ?>
+                <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
+                <input type="hidden" name="slug" value="<?= e($post['slug']) ?>">
+                <textarea name="content" rows="3" class="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" placeholder="Write a thoughtful comment..." required></textarea>
+                <button class="mt-3 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm cursor-pointer font-medium">Post Comment</button>
+            </form>
+        <?php else: ?>
+            <a href="/login" class="text-sm text-blue-500 hover:underline">Login to comment</a>
+        <?php endif; ?>
+
+        <?php if (!empty($comments)): ?>
+            <div class="space-y-4">
+                <?php foreach ($comments as $comment): ?>
+                    <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <?= e($comment['author_name']) ?> · <?= date('F j, Y', strtotime($comment['created_at'])) ?>
+                        </div>
+                        <p class="text-gray-800 dark:text-gray-100"><?= nl2br(e($comment['content'])) ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="text-sm text-gray-500 dark:text-gray-400">No comments yet.</p>
+        <?php endif; ?>
+    </div>
 </article>
 
 <?php

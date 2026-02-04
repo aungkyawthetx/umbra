@@ -1,26 +1,29 @@
 <?php ob_start(); ?>
 <?php 
     $isOwnProfile = $authUser && $authUser['id'] === $user['id'];
-    $db = Database::connect();
-    $stmt = $db->prepare("SELECT 1 FROM reading_lists WHERE reader_id = ? AND author_id = ?");
-    $stmt->execute([$_SESSION['user']['id'], $user['id']]);
-    $isFollowing = $stmt->fetch();
+    $isFollowing = false;
+    if ($authUser) {
+        $db = Database::connect();
+        $stmt = $db->prepare("SELECT 1 FROM reading_lists WHERE reader_id = ? AND author_id = ?");
+        $stmt->execute([$authUser['id'], $user['id']]);
+        $isFollowing = (bool)$stmt->fetch();
+    }
 ?>
 <div class="max-w-6xl mx-auto">
     <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-2xl p-8 mb-12">
         <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
             <div class="w-28 h-28 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 border-2 border-white dark:border-gray-800 flex items-center justify-center font-medium text-sm text-blue-600 dark:text-blue-300">
-                <span class="text-5xl"> <?= strtoupper(substr($_SESSION['user']['fullname'], 0, 2)) ?> </span>
+                <span class="text-5xl"> <?= e(strtoupper(substr($user['name'], 0, 2))) ?> </span>
             </div>
             <!-- Info -->
             <div class="flex-1 w-full">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                     <div>
                         <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                            <?= $user['name'] ?? 'N/A' ?>
+                            <?= e($user['name'] ?? 'N/A') ?>
                         </h1>
                         <p class="text-gray-500 dark:text-gray-400">
-                           <?= $user['username'] ?>
+                           <?= e($user['username']) ?>
                         </p>
                     </div>
                     <?php if($isOwnProfile): ?>
@@ -33,13 +36,18 @@
                             Logout
                         </a>
                     <?php else: ?>
-                        <?php if ($isFollowing): ?>
+                        <?php if (!$authUser): ?>
+                            <a href="/login" class="px-3 py-2 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+                                Login to follow
+                            </a>
+                        <?php elseif ($isFollowing): ?>
                             <button disabled class="px-3 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-100 rounded-lg font-medium">
                                 In Reading List
                             </button>
                         <?php else: ?>
                             <form action="/reading-list" method="POST">
-                                <input type="hidden" name="username" value="<?= $user['username'] ?>">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="username" value="<?= e($user['username']) ?>">
                                 <button class="cursor-pointer px-3 py-2 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
                                     Add to Reading List
                                 </button>
@@ -50,7 +58,7 @@
 
                 <!-- Bio -->
                 <p class="text-gray-600 dark:text-gray-400 max-w-2xl mb-6">
-                    <?= $user['bio'] ?? 'No bio provided.' ?>
+                    <?= e($user['bio'] ?? 'No bio provided.') ?>
                 </p>
 
                 <!-- Stats -->
@@ -86,12 +94,18 @@
                 <article class="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-lg dark:hover:shadow-blue-500/10">
                     <!-- Cover -->
                     <div class="relative h-52 overflow-hidden">
-                        <img 
-                            src="/uploads/<?= htmlspecialchars($post['cover_image']) ?>" 
-                            alt="<?= htmlspecialchars($post['title']) ?>" 
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <?php if (!empty($post['cover_image'])): ?>
+                            <img 
+                                src="/uploads/<?= e($post['cover_image']) ?>" 
+                                alt="<?= e($post['title']) ?>" 
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <?php else: ?>
+                            <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                                No cover image
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <!-- Content -->
                     <div class="p-6 space-y-4">
@@ -107,23 +121,36 @@
                         </div>
                         <!-- Title -->
                         <h2 class="text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-300 leading-snug line-clamp-2">
-                            <?= htmlspecialchars($post['title'] ?? 'N/A') ?>
+                            <?= e($post['title'] ?? 'N/A') ?>
                         </h2>
+                        <?php if ($isOwnProfile && !empty($post['status']) && $post['status'] !== 'published'): ?>
+                            <span class="inline-flex text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200">
+                                <?= e($post['status']) ?>
+                            </span>
+                        <?php endif; ?>
                         <!-- Actions -->
                         <div class="flex items-center justify-between">
-                            <a  href="/blog?slug=<?= $post['slug'] ?>" class="inline-flex items-center gap-2 text-sm font-medium text-blue-400 dark:text-blue-400 hover:underline">
+                            <a  href="/blog?slug=<?= e($post['slug']) ?>" class="inline-flex items-center gap-2 text-sm font-medium text-blue-400 dark:text-blue-400 hover:underline">
                                 Read more
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                 </svg>
                             </a>
-                            <!-- Edit (author only) -->
-                            <!-- <?php if (is_logged_in() && $_SESSION['user']['id'] === $post['user_id']): ?>
-                                <a  href="/blog/edit?id=<?= $post['id'] ?>" class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                                    Edit
-                                </a>
+                            <?php if ($isOwnProfile): ?>
+                                <div class="flex items-center gap-2">
+                                    <a  href="/blog/edit?id=<?= (int)$post['id'] ?>" class="text-sm px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                                        Edit
+                                    </a>
+                                    <form method="POST" action="/blog/delete" onsubmit="return confirm('Delete this post?');">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="id" value="<?= (int)$post['id'] ?>">
+                                        <button class="text-sm px-3 py-1 rounded border border-red-300 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition cursor-pointer">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
                             <?php endif; ?>
-                        </div> -->
+                        </div>
                     </div>
                 </article>
             <?php endforeach ?>

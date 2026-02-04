@@ -13,12 +13,15 @@ It focuses on clarity, reading experience, and personal expression.
 - Read posts from other writers
 - Public author profiles
 - Add authors to **Reading List**
+- Reading list feed page
 - Like posts
 - Comment on posts
+- Edit & delete your posts
+- Drafts and scheduling
+- Tags + search + pagination
 - Dark mode support
 - Authentication (Login & Register)
-- Simple MVC-style mini framework (no heavy frameworks)
-
+- Simple MVC-style mini framework
 ---
 
 ## Tech Stack

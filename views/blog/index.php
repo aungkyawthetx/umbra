@@ -12,10 +12,10 @@
         <?php foreach ($posts as $post): ?>
             <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
                 <div class="h-48 overflow-hidden bg-gray-100">
-                    <a href="/blog?slug=<?= $post['slug'] ?>">
+                    <a href="/blog?slug=<?= e($post['slug']) ?>">
                         <?php if (!empty($post['cover_image'])): ?>
-                            <img  src="/uploads/<?= htmlspecialchars($post['cover_image']) ?>" 
-                                alt="<?= htmlspecialchars($post['title']) ?>"
+                            <img  src="/uploads/<?= e($post['cover_image']) ?>" 
+                                alt="<?= e($post['title']) ?>"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 loading="lazy"
                             >
@@ -34,14 +34,14 @@
                         <?= date('F j, Y', strtotime($post['created_at'])) ?>
                     </p>
 
-                    <a href="/blog?slug=<?= $post['slug'] ?>">
+                    <a href="/blog?slug=<?= e($post['slug']) ?>">
                         <h2 class="text-lg md:text-xl text-gray-800 dark:text-gray-300 font-semibold mb-3 transition-colors">
-                            <?= htmlspecialchars($post['title'] ?? 'N/A') ?>
+                            <?= e($post['title'] ?? 'N/A') ?>
                         </h2>
                     </a>
                     
                     <div class="flex items-center justify-between">
-                        <a href="/blog?slug=<?= $post['slug'] ?>" class="text-blue-400 hover:text-blue-500 font-medium text-sm transition-all">
+                        <a href="/blog?slug=<?= e($post['slug']) ?>" class="text-blue-400 hover:text-blue-500 font-medium text-sm transition-all">
                             Read more
                         </a>
                     </div>
