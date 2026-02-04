@@ -35,13 +35,13 @@
 
     <div class="mt-10 flex items-center gap-4">
         <?php if (is_logged_in()): ?>
-            <form method="POST" action="/like" class="inline-flex items-center gap-2">
+            <form method="POST" action="/like" class="inline-flex items-center gap-2" id="like-form">
                 <?= csrf_field() ?>
                 <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
-                <button class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <button id="like-button" class="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                     <?= $likedByUser ? 'Unlike' : 'Like' ?>
                 </button>
-                <span class="text-sm text-gray-500 dark:text-gray-400"><?= (int)$likesCount ?> likes</span>
+                <span id="like-count" class="text-sm text-gray-500 dark:text-gray-400"><?= (int)$likesCount ?> likes</span>
             </form>
         <?php else: ?>
             <a href="/login" class="text-sm text-blue-500 hover:underline">Login to like</a>
@@ -50,9 +50,9 @@
     </div>
 
     <div class="mt-12">
-        <h3 class="text-lg font-semibold mb-4">Comments (<?= count($comments) ?>)</h3>
+        <h3 class="text-lg font-semibold mb-4">Comments (<span id="comment-count"><?= count($comments) ?></span>)</h3>
         <?php if (is_logged_in()): ?>
-            <form method="POST" action="/comment" class="mb-6">
+            <form method="POST" action="/comment" class="mb-6" id="comment-form">
                 <?= csrf_field() ?>
                 <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
                 <input type="hidden" name="slug" value="<?= e($post['slug']) ?>">
@@ -64,7 +64,7 @@
         <?php endif; ?>
 
         <?php if (!empty($comments)): ?>
-            <div class="space-y-4">
+            <div class="space-y-4" id="comment-list">
                 <?php foreach ($comments as $comment): ?>
                     <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
                         <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
@@ -75,10 +75,80 @@
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <p class="text-sm text-gray-500 dark:text-gray-400">No comments yet.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400" id="comment-empty">No comments yet.</p>
         <?php endif; ?>
     </div>
 </article>
+
+<script>
+    (function () {
+        const likeForm = document.getElementById('like-form');
+        if (likeForm) {
+            likeForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const formData = new FormData(likeForm);
+                const res = await fetch(likeForm.action, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: formData
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data.ok) return;
+                const countEl = document.getElementById('like-count');
+                const btn = document.getElementById('like-button');
+                if (countEl) countEl.textContent = `${data.count} likes`;
+                if (btn) btn.textContent = data.liked ? 'Unlike' : 'Like';
+            });
+        }
+
+        const commentForm = document.getElementById('comment-form');
+        if (commentForm) {
+            commentForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const formData = new FormData(commentForm);
+                const res = await fetch(commentForm.action, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    body: formData
+                });
+                if (!res.ok) return;
+                const data = await res.json();
+                if (!data.ok) return;
+
+                const list = document.getElementById('comment-list');
+                const empty = document.getElementById('comment-empty');
+                const countEl = document.getElementById('comment-count');
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'p-4 border border-gray-200 dark:border-gray-700 rounded-lg';
+                const date = new Date(data.comment.created_at);
+                const displayDate = isNaN(date.getTime()) ? data.comment.created_at : date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+                wrapper.innerHTML = `
+                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        ${data.comment.author_name} · ${displayDate}
+                    </div>
+                    <p class="text-gray-800 dark:text-gray-100"></p>
+                `;
+                wrapper.querySelector('p').textContent = data.comment.content;
+
+                if (empty) empty.remove();
+                if (list) {
+                    list.prepend(wrapper);
+                } else {
+                    const container = document.createElement('div');
+                    container.id = 'comment-list';
+                    container.className = 'space-y-4';
+                    container.appendChild(wrapper);
+                    commentForm.insertAdjacentElement('afterend', container);
+                }
+
+                if (countEl) countEl.textContent = String(Number(countEl.textContent) + 1);
+                commentForm.reset();
+            });
+        }
+    })();
+</script>
 
 <?php
 $content = ob_get_clean();

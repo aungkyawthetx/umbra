@@ -362,6 +362,34 @@ class BlogController extends Controller
         $stmt = $db->prepare("INSERT INTO comments (post_id, user_id, content, created_at) VALUES (?, ?, ?, NOW())");
         $stmt->execute([$postId, $_SESSION['user']['id'], $content]);
 
+        $isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+            || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false);
+
+        if ($isAjax) {
+            $commentId = (int)$db->lastInsertId();
+            $c = $db->prepare("
+                SELECT comments.*, users.name AS author_name
+                FROM comments
+                LEFT JOIN users ON users.id = comments.user_id
+                WHERE comments.id = ?
+                LIMIT 1
+            ");
+            $c->execute([$commentId]);
+            $comment = $c->fetch(PDO::FETCH_ASSOC);
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'ok' => true,
+                'comment' => [
+                    'id' => (int)$comment['id'],
+                    'author_name' => $comment['author_name'],
+                    'content' => $comment['content'],
+                    'created_at' => $comment['created_at']
+                ]
+            ]);
+            return;
+        }
+
         $slug = $_POST['slug'] ?? '';
         header("Location: /blog?slug=" . urlencode($slug));
     }
@@ -387,6 +415,23 @@ class BlogController extends Controller
             $db->prepare("DELETE FROM likes WHERE post_id = ? AND user_id = ?")->execute([$postId, $_SESSION['user']['id']]);
         } else {
             $db->prepare("INSERT IGNORE INTO likes (post_id, user_id, created_at) VALUES (?, ?, NOW())")->execute([$postId, $_SESSION['user']['id']]);
+        }
+
+        $isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+            || (strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false);
+
+        if ($isAjax) {
+            $likesStmt = $db->prepare("SELECT COUNT(*) FROM likes WHERE post_id = ?");
+            $likesStmt->execute([$postId]);
+            $likesCount = (int)$likesStmt->fetchColumn();
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'ok' => true,
+                'liked' => !$exists,
+                'count' => $likesCount
+            ]);
+            return;
         }
 
         header("Location: " . ($_SERVER['HTTP_REFERER'] ?? '/posts'));
