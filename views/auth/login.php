@@ -35,14 +35,14 @@
             >
         </div>
 
-        <button class="w-full bg-blue-400 hover:bg-blue-500 text-white py-3 rounded-lg font-medium transition cursor-pointer">
-            Login
+        <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium transition cursor-pointer">
+            Sign In
         </button>
 
         <p class="text-sm text-center text-gray-500 dark:text-gray-400 mt-6">
             Don't have an account?
-            <a href="/register" class="text-blue-400 hover:underline">
-                Register
+            <a href="/register" class="text-blue-500 hover:underline">
+                Sign Up
             </a>
         </p>
     </form>
