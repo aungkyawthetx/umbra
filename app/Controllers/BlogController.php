@@ -391,7 +391,7 @@ class BlogController extends Controller
         }
 
         $slug = $_POST['slug'] ?? '';
-        header("Location: /blog?slug=" . urlencode($slug));
+        header("Location: /blog/" . rawurlencode($slug));
     }
 
     public function like()

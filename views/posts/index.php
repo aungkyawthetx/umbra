@@ -25,7 +25,8 @@
             placeholder="Filter by tag"
             class="md:w-56 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
         >
-        <button class="py-2 px-8 font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
+        <button class="py-2 px-5 font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center gap-1">
+            <i class="fa-solid fa-magnifying-glass"></i>
             Search
         </button>
     </form>
@@ -34,7 +35,7 @@
         <?php foreach ($posts as $post): ?>
         <article class="group">
             <div class="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-6 bg-gray-100 dark:bg-gray-800">
-                <a href="/blog?slug=<?= e($post['slug']) ?>">
+                <a href="/blog/<?= e($post['slug']) ?>">
                     <?php if (!empty($post['cover_image'])): ?>
                         <img 
                             src="/uploads/<?= e($post['cover_image']) ?>" 
@@ -66,7 +67,7 @@
 
                 <h2 class="text-lg md:text-3xl font-medium text-gray-900 dark:text-gray-100 mb-4 transition-colors">
                     <?php if(isset($post['title'])): ?>
-                        <a href="/blog?slug=<?= e($post['slug']) ?>">
+                        <a href="/blog/<?= e($post['slug']) ?>">
                             <?= e($post['title']) ?>
                         </a>
                     <?php else: ?>
@@ -79,7 +80,7 @@
                 </p>
 
                 <div class="flex items-center justify-between border-b pb-4 border-gray-300 dark:border-gray-700">
-                    <a href="/blog?slug=<?= e($post['slug']) ?>" 
+                    <a href="/blog/<?= e($post['slug']) ?>" 
                        class="text-gary-900 hover:text-blue-500 dark:text-blue-400 hover:underline dark:hover:text-blue-300 font-medium flex items-center gap-3 group-hover:gap-4 transition-all">
                         Read more
                     </a>

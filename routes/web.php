@@ -2,6 +2,7 @@
 
 $router->get('/', 'BlogController@index');
 $router->get('/blog', 'BlogController@show');
+$router->get('/blog/{slug}', 'BlogController@show');
 $router->get('/write', 'BlogController@create');
 $router->post('/write', 'BlogController@store');
 $router->get('/blog/edit', 'BlogController@edit');

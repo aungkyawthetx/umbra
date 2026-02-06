@@ -24,7 +24,7 @@
     </p>
 
     <?php if (!empty($post['tags'])): ?>
-        <div class="mt-8 flex flex-wrap gap-2">
+        <div class="mt-8 flex flex-wrap gap-2 mb-2">
             <?php foreach (explode(',', $post['tags']) as $tag): ?>
                 <a href="/posts?tag=<?= urlencode(trim($tag)) ?>" class="text-xs px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                     #<?= e(trim($tag)) ?>
