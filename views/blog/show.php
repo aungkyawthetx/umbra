@@ -62,7 +62,6 @@
             <form method="POST" action="/comment" class="mb-6" id="comment-form">
                 <?= csrf_field() ?>
                 <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
-                <input type="hidden" name="slug" value="<?= e($post['slug']) ?>">
                 <textarea name="content" rows="3" class="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" placeholder="Write a thoughtful comment..." required></textarea>
                 <button class="mt-3 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm cursor-pointer font-medium">Post Comment</button>
             </form>

@@ -32,7 +32,7 @@
                 }
 
                 $pattern = preg_replace('/\{[^\/]+\}/', '([^\/]+)', $route);
-                if (!preg_match('#^' . $pattern . '$#u', $uri, $matches)) {
+                if (!preg_match('#^' . $pattern . '/?$#u', $uri, $matches)) {
                     continue;
                 }
 
