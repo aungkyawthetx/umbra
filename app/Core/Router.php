@@ -21,7 +21,7 @@ class Router
 
         if (!isset($this->routes[$method][$uri])) {
             http_response_code(404);
-            echo "404 Not Found";
+            require_once __DIR__ . '/../../views/errors/404.php';
             return;
         }
 

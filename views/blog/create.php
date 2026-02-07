@@ -21,6 +21,7 @@
 
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 md:p-8">
         <form method="POST" action="/write" enctype="multipart/form-data" class="space-y-8">
+            <?= csrf_field() ?>
             <div class="space-y-3">
                 <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
                     Title
@@ -33,6 +34,45 @@
                         required
                         autofocus
                     >
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                    Tags
+                </label>
+                <input
+                    name="tags"
+                    placeholder="e.g. writing, minimalism, focus"
+                    class="w-full p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 hover:bg-white dark:hover:bg-gray-800 text-gray-900 dark:text-white"
+                >
+                <p class="text-xs text-gray-500 dark:text-gray-400">Comma-separated tags.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                        Status
+                    </label>
+                    <select
+                        name="status"
+                        class="w-full p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:outline-none text-gray-900 dark:text-white"
+                    >
+                        <option value="published">Publish now</option>
+                        <option value="draft">Save as draft</option>
+                        <option value="scheduled">Schedule</option>
+                    </select>
+                </div>
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                        Schedule For
+                    </label>
+                    <input
+                        type="datetime-local"
+                        name="scheduled_at"
+                        class="w-full p-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:outline-none text-gray-900 dark:text-white"
+                    >
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Only used when status is Schedule.</p>
                 </div>
             </div>
 
@@ -76,7 +116,7 @@
                 </button>
                 <button type="submit" class="cursor-pointer px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-500 dark:to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg dark:shadow-gray-900/30 transition-all active:scale-[0.98] flex items-center gap-3">
                     <i class="fa-solid fa-paper-plane"></i>
-                    Publish
+                    Save
                 </button>
             </div>
         </form>

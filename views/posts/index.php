@@ -6,19 +6,39 @@
             Posts
         </h1>
         <p class="text-gray-600 dark:text-gray-400">
-            <?= count($posts) ?> posts • Update regularly  
+            <?= (int)$total ?> posts • Updated regularly  
         </p>
     </div>
+
+    <form method="GET" action="/posts" class="mb-10 flex flex-col md:flex-row gap-4">
+        <input
+            type="text"
+            name="q"
+            value="<?= e($q ?? '') ?>"
+            placeholder="Search posts..."
+            class="flex-1 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-400 border border-gray-200 focus:outline-none dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+        >
+        <input
+            type="text"
+            name="tag"
+            value="<?= e($tag ?? '') ?>"
+            placeholder="Filter by tag"
+            class="md:w-56 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+        >
+        <button class="py-2 px-8 font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
+            Search
+        </button>
+    </form>
 
     <div class="space-y-12">
         <?php foreach ($posts as $post): ?>
         <article class="group">
             <div class="relative h-64 md:h-80 rounded-2xl overflow-hidden mb-6 bg-gray-100 dark:bg-gray-800">
-                <a href="/blog?slug=<?= $post['slug'] ?>">
+                <a href="/blog?slug=<?= e($post['slug']) ?>">
                     <?php if (!empty($post['cover_image'])): ?>
                         <img 
-                            src="/uploads/<?= htmlspecialchars($post['cover_image']) ?>" 
-                            alt="<?= htmlspecialchars($post['title']) ?>"
+                            src="/uploads/<?= e($post['cover_image']) ?>" 
+                            alt="<?= e($post['title']) ?>"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             loading="lazy"
                         >
@@ -38,7 +58,7 @@
 
             <div class="px-2">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-xl font-medium dark:text-gary-300"> <?= $post['name'] ?? 'N/A' ?> </h3>
+                    <h3 class="text-xl font-medium dark:text-gary-300"> <?= e($post['name'] ?? 'N/A') ?> </h3>
                     <time datetime="<?= date('Y-m-d', strtotime($post['created_at'])) ?>" class="text-sm text-gray-500 dark:text-gray-400">
                         <?= date('F j, Y', strtotime($post['created_at'])) ?>
                     </time>
@@ -46,8 +66,8 @@
 
                 <h2 class="text-lg md:text-3xl font-medium text-gray-900 dark:text-gray-100 mb-4 transition-colors">
                     <?php if(isset($post['title'])): ?>
-                        <a href="/blog?slug=<?= $post['slug'] ?>">
-                            <?= htmlspecialchars($post['title']) ?>
+                        <a href="/blog?slug=<?= e($post['slug']) ?>">
+                            <?= e($post['title']) ?>
                         </a>
                     <?php else: ?>
                         <p class="italic font-normal text-gray-700 dark:text-gray-100">Title Not Found.</p>
@@ -55,12 +75,11 @@
                 </h2>
 
                 <p class="blog-content text-gray-800 dark:text-gray-300 text-md md:text-lg leading-relaxed mb-6">
-                    <?= htmlspecialchars(mb_substr($post['content'], 0, 300, 'UTF-8')) ?> ...
+                    <?= e(mb_substr($post['content'], 0, 300, 'UTF-8')) ?> ...
                 </p>
 
-                <!-- Read More -->
                 <div class="flex items-center justify-between border-b pb-4 border-gray-300 dark:border-gray-700">
-                    <a href="/blog?slug=<?= $post['slug'] ?>" 
+                    <a href="/blog?slug=<?= e($post['slug']) ?>" 
                        class="text-gary-900 hover:text-blue-500 dark:text-blue-400 hover:underline dark:hover:text-blue-300 font-medium flex items-center gap-3 group-hover:gap-4 transition-all">
                         Read more
                     </a>
@@ -78,7 +97,16 @@
         <?php endforeach; ?>
     </div>
 
-    <!-- Empty State -->
+    <?php if ($totalPages > 1): ?>
+        <div class="flex items-center justify-center gap-3 mt-12">
+            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                <a href="/posts?page=<?= $p ?>&q=<?= urlencode($q ?? '') ?>&tag=<?= urlencode($tag ?? '') ?>" class="px-3 py-2 rounded-lg border <?= $p === $page ? 'bg-blue-500 text-white border-blue-500' : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' ?>">
+                    <?= $p ?>
+                </a>
+            <?php endfor; ?>
+        </div>
+    <?php endif; ?>
+
     <?php if (empty($posts)): ?>
     <div class="text-center py-20">
         <div class="w-24 h-24 mx-auto mb-6 text-gray-300 dark:text-gray-700">
