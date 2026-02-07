@@ -83,8 +83,8 @@ class BlogController extends Controller
 
     public function show()
     {
-        $slug = $_GET['slug'] ?? null;
-        if (!$slug) {
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) {
             http_response_code(404);
             require __DIR__ . '/../../views/errors/404.php';
             return;
@@ -98,10 +98,10 @@ class BlogController extends Controller
             LEFT JOIN users ON posts.user_id = users.id
             LEFT JOIN post_tags ON post_tags.post_id = posts.id
             LEFT JOIN tags ON tags.id = post_tags.tag_id
-            WHERE posts.slug = ?
+            WHERE posts.id = ?
             GROUP BY posts.id
         ");
-        $stmt->execute([$slug]);
+        $stmt->execute([$id]);
         $post = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$post) {
@@ -401,8 +401,8 @@ class BlogController extends Controller
             return;
         }
 
-        $slug = $_POST['slug'] ?? '';
-        header("Location: /blog?slug=" . urlencode($slug));
+        $postId = (int)($_POST['post_id'] ?? 0);
+        header("Location: /blog/" . $postId);
     }
 
     public function like()

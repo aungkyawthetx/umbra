@@ -12,7 +12,7 @@
         <?php foreach ($posts as $post): ?>
             <article class="group bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-lg overflow-hidden transition hover:border-blue-500/40">
                 <div class="h-48 overflow-hidden bg-gray-100">
-                    <a href="/blog?slug=<?= e($post['slug']) ?>">
+                    <a href="/blog/<?= (int)$post['id'] ?>">
                         <?php if (!empty($post['cover_image'])): ?>
                             <img  src="/uploads/<?= e($post['cover_image']) ?>" 
                                 alt="<?= e($post['title']) ?>"
@@ -34,14 +34,14 @@
                         <?= date('F j, Y', strtotime($post['created_at'])) ?>
                     </p>
 
-                    <a href="/blog?slug=<?= e($post['slug']) ?>">
+                    <a href="/blog/<?= (int)$post['id'] ?>">
                         <h2 class="text-lg md:text-xl text-gray-800 dark:text-gray-300 font-semibold mb-3 transition-colors">
                             <?= e($post['title'] ?? 'N/A') ?>
                         </h2>
                     </a>
                     
                     <div class="flex items-center justify-between">
-                        <a href="/blog?slug=<?= e($post['slug']) ?>" class="text-blue-400 hover:text-blue-500 font-medium text-sm transition-all">
+                        <a href="/blog/<?= (int)$post['id'] ?>" class="text-blue-400 hover:text-blue-500 font-medium text-sm transition-all">
                             Read more
                         </a>
                     </div>

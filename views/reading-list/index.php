@@ -33,7 +33,7 @@
                             <?= e($post['author_name']) ?> · <?= date('F j, Y', strtotime($post['created_at'])) ?>
                         </div>
                         <h3 class="text-lg font-semibold">
-                            <a href="/blog?slug=<?= e($post['slug']) ?>" class="hover:underline">
+                            <a href="/blog/<?= (int)$post['id'] ?>" class="hover:underline">
                                 <?= e($post['title']) ?>
                             </a>
                         </h3>

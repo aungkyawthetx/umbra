@@ -26,7 +26,7 @@
                     Get Started
                 </a>
             <?php endif; ?>
-            <a href="/posts" class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+            <a href="/posts" class="px-6 py-3 border font-medium border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
                 Explore Posts
             </a>
         </div>
