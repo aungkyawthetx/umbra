@@ -148,6 +148,17 @@ class BlogController extends Controller
         require_auth();
         $this->view('blog/create');
     }
+    
+    public function edit()
+    {
+        $id = $_GET['id'];
+        $db = Database::connect();
+        $stmt = $db->prepare("SELECT title, content, cover_image FROM posts WHERE id = ?");
+        $stmt->execute([$id]);
+        $post = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        $this->view('blog/edit', compact('post'));
+    }
 
     public function store()
     {
