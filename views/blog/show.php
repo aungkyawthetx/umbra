@@ -7,7 +7,11 @@
     
     <div class="flex items-center justify-between mb-10">
         <div>
-            <h2 class="font-medium text-md dark:text-gray-50"> <?= e($post['author_name']) ?> </h2>
+            <h2 class="font-medium text-md dark:text-gray-50">
+                <a href="/profile?username=<?= urlencode($post['author_username']) ?>" class="hover:underline">
+                    <?= e($post['author_name']) ?>
+                </a>
+            </h2>
             <p class="text-sm text-neutral-500 dark:text-gray-300 italic">
                 Posted on: <?= date('F j, Y', strtotime($post['published_at'] ?? $post['created_at'])) ?>
             </p>

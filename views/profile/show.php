@@ -55,7 +55,7 @@
                             <form action="/reading-list" method="POST">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="username" value="<?= e($user['username']) ?>">
-                                <button class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 text-sm bg-blue-500 hover:bg-blue-600 font-medium rounded-lg transition">
+                                <button class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 text-white text-sm bg-blue-500 hover:bg-blue-600 font-medium rounded-lg transition">
                                     <i class="fa-solid fa-user-plus text-xs"></i>
                                     Follow
                                 </button>

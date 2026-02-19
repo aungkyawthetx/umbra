@@ -92,7 +92,7 @@ class BlogController extends Controller
 
         $db = Database::connect();
         $stmt = $db->prepare("
-            SELECT posts.*, users.name AS author_name,
+            SELECT posts.*, users.name AS author_name, users.username AS author_username,
                    (posts.status = 'published' OR (posts.status = 'scheduled' AND posts.scheduled_at <= NOW())) AS is_publicly_visible,
                    GROUP_CONCAT(DISTINCT tags.name ORDER BY tags.name SEPARATOR ',') AS tags
             FROM posts
