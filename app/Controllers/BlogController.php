@@ -151,13 +151,36 @@ class BlogController extends Controller
     
     public function edit()
     {
-        $id = $_GET['id'];
+        require_auth();
+
+        $id = (int)($_GET['id'] ?? 0);
+        if (!$id) {
+            http_response_code(404);
+            require __DIR__ . '/../../views/errors/404.php';
+            return;
+        }
+
         $db = Database::connect();
-        $stmt = $db->prepare("SELECT title, content, cover_image FROM posts WHERE id = ?");
-        $stmt->execute([$id]);
+        $stmt = $db->prepare("SELECT * FROM posts WHERE id = ? AND user_id = ? LIMIT 1");
+        $stmt->execute([$id, $_SESSION['user']['id']]);
         $post = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        $this->view('blog/edit', compact('post'));
+
+        if (!$post) {
+            http_response_code(404);
+            require __DIR__ . '/../../views/errors/404.php';
+            return;
+        }
+
+        $tagsStmt = $db->prepare("
+            SELECT GROUP_CONCAT(t.name ORDER BY t.name SEPARATOR ',') AS tags
+            FROM tags t
+            JOIN post_tags pt ON pt.tag_id = t.id
+            WHERE pt.post_id = ?
+        ");
+        $tagsStmt->execute([$id]);
+        $tags = $tagsStmt->fetchColumn() ?: '';
+
+        $this->view('blog/edit', compact('post', 'tags'));
     }
 
     public function store()
@@ -216,39 +239,6 @@ class BlogController extends Controller
         $this->syncTags($postId, $tags);
 
         header("Location: /posts");
-    }
-
-    public function edit()
-    {
-        require_auth();
-        $id = (int)($_GET['id'] ?? 0);
-        if (!$id) {
-            http_response_code(404);
-            require __DIR__ . '/../../views/errors/404.php';
-            return;
-        }
-
-        $db = Database::connect();
-        $stmt = $db->prepare("SELECT * FROM posts WHERE id = ? AND user_id = ? LIMIT 1");
-        $stmt->execute([$id, $_SESSION['user']['id']]);
-        $post = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$post) {
-            http_response_code(404);
-            require __DIR__ . '/../../views/errors/404.php';
-            return;
-        }
-
-        $tagsStmt = $db->prepare("
-            SELECT GROUP_CONCAT(t.name ORDER BY t.name SEPARATOR ',') AS tags
-            FROM tags t
-            JOIN post_tags pt ON pt.tag_id = t.id
-            WHERE pt.post_id = ?
-        ");
-        $tagsStmt->execute([$id]);
-        $tags = $tagsStmt->fetchColumn() ?: '';
-
-        $this->view('blog/edit', compact('post', 'tags'));
     }
 
     public function update()

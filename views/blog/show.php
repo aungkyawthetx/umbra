@@ -57,16 +57,16 @@
     </div>
 
     <div class="mt-12">
-        <h3 class="text-lg font-semibold mb-4">Comments (<span id="comment-count"><?= count($comments) ?></span>)</h3>
+        <h3 class="text-lg font-semibold mb-4">Reflections (<span id="comment-count"><?= count($comments) ?></span>)</h3>
         <?php if (is_logged_in()): ?>
             <form method="POST" action="/comment" class="mb-6" id="comment-form">
                 <?= csrf_field() ?>
                 <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
-                <textarea name="content" rows="3" class="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100" placeholder="Write a thoughtful comment..." required></textarea>
-                <button class="mt-3 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm cursor-pointer font-medium">Post Comment</button>
+                <textarea name="content" rows="3" class="w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Write a Reflection..." required></textarea>
+                <button class="mt-3 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm cursor-pointer font-medium"> Submit </button>
             </form>
         <?php else: ?>
-            <a href="/login" class="text-sm text-blue-500 hover:underline">Login to comment</a>
+            <a href="/login" class="text-sm text-blue-500 hover:underline">Login to write a reflection.</a>
         <?php endif; ?>
 
         <?php if (!empty($comments)): ?>
@@ -81,7 +81,7 @@
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <p class="text-sm text-gray-500 dark:text-gray-400" id="comment-empty">No comments yet.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400" id="comment-empty">No reflection yet.</p>
         <?php endif; ?>
     </div>
 </article>
