@@ -85,14 +85,25 @@
                 <span class="px-3 py-1.5 border border-gray-300 rounded hover:bg-neutral-100 dark:hover:bg-gray-700 dark:border-gray-600">
                     Replace image
                 </span>
-                <span class="file-name text-neutral-400">No file selected</span>
+                <span id="edit-file-name" class="text-neutral-400">No file selected</span>
                 <input
                     type="file"
+                    id="edit-image-input"
                     name="image"
+                    accept="image/*"
                     class="hidden"
-                    onchange="this.previousElementSibling.textContent = this.files[0]?.name || 'No file selected'"
                 >
             </label>
+            <?php $coverSrc = !empty($post['cover_image']) ? '/uploads/' . e($post['cover_image']) : ''; ?>
+            <div id="edit-image-preview-wrap" class="<?= $coverSrc ? '' : 'hidden' ?>">
+                <img
+                    id="edit-image-preview"
+                    src="<?= $coverSrc ?>"
+                    data-existing-src="<?= $coverSrc ?>"
+                    class="max-h-72 w-full rounded-xl object-cover border border-gray-200 dark:border-gray-700"
+                    alt="Cover image preview"
+                >
+            </div>
 
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
@@ -135,6 +146,37 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         const textarea = document.querySelector('textarea[name="content"]');
+        const imageInput = document.getElementById('edit-image-input');
+        const fileName = document.getElementById('edit-file-name');
+        const previewWrap = document.getElementById('edit-image-preview-wrap');
+        const preview = document.getElementById('edit-image-preview');
+
+        if (imageInput && fileName && previewWrap && preview) {
+            imageInput.addEventListener('change', function() {
+                const file = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null;
+                fileName.textContent = file ? file.name : 'No file selected';
+
+                if (!file) {
+                    const existingSrc = preview.getAttribute('data-existing-src') || '';
+                    if (existingSrc) {
+                        preview.src = existingSrc;
+                        previewWrap.classList.remove('hidden');
+                    } else {
+                        preview.removeAttribute('src');
+                        previewWrap.classList.add('hidden');
+                    }
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewWrap.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         if (textarea) {
             updateWordCount(textarea);
             textarea.addEventListener('input', function() {

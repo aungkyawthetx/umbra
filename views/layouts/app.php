@@ -84,10 +84,8 @@
                     </a>
                     <?php if(is_logged_in()): ?>
                         <a href="/reading-list" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 6h14M5 12h14M5 18h14" />
-                            </svg>
-                            Reading List
+                            <i class="fa-solid fa-list"></i>
+                            Reading
                         </a>
                         <a href="/profile?username=<?= e($_SESSION['user']['username']) ?>" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -29,7 +29,7 @@
                 <div class="relative">
                     <input
                         name="title"
-                        placeholder="Craft a compelling title for your blog post"
+                        placeholder="What are you thinking about?"
                         class="w-full p-5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 hover:bg-white dark:hover:bg-gray-800 text-gray-900 dark:text-white"
                         required
                         autofocus
@@ -80,14 +80,18 @@
                 <span class="px-3 py-1.5 border border-gray-300 rounded hover:bg-neutral-100 dark:hover:bg-gray-700 dark:border-gray-600">
                     Attach image
                 </span>
-                <span class="file-name text-neutral-400">No file selected</span>
+                <span id="create-file-name" class="text-neutral-400">No file selected</span>
                 <input
                     type="file"
+                    id="create-image-input"
                     name="image"
+                    accept="image/*"
                     class="hidden"
-                    onchange="this.previousElementSibling.textContent = this.files[0]?.name || 'No file selected'"
                 >
             </label>
+            <div id="create-image-preview-wrap" class="hidden">
+                <img id="create-image-preview" class="max-h-72 w-full rounded-xl object-cover border border-gray-200 dark:border-gray-700" alt="Selected image preview">
+            </div>
 
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
@@ -133,6 +137,40 @@
     // Auto-expand textarea
     document.addEventListener('DOMContentLoaded', function() {
         const textarea = document.querySelector('textarea[name="content"]');
+        const imageInput = document.getElementById('create-image-input');
+        const fileName = document.getElementById('create-file-name');
+        const previewWrap = document.getElementById('create-image-preview-wrap');
+        const preview = document.getElementById('create-image-preview');
+        const form = document.querySelector('form[action="/write"]');
+
+        if (imageInput && fileName && previewWrap && preview) {
+            imageInput.addEventListener('change', function() {
+                const file = imageInput.files && imageInput.files[0] ? imageInput.files[0] : null;
+                fileName.textContent = file ? file.name : 'No file selected';
+                if (!file) {
+                    preview.removeAttribute('src');
+                    previewWrap.classList.add('hidden');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewWrap.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        if (form && fileName && previewWrap && preview) {
+            form.addEventListener('reset', function() {
+                setTimeout(function() {
+                    fileName.textContent = 'No file selected';
+                    preview.removeAttribute('src');
+                    previewWrap.classList.add('hidden');
+                }, 0);
+            });
+        }
+
         if (textarea) {
             textarea.addEventListener('input', function() {
                 this.style.height = 'auto';
@@ -145,3 +183,4 @@
 <?php
 $content = ob_get_clean();
 require __DIR__ . '/../layouts/app.php';
+?>
