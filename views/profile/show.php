@@ -27,29 +27,36 @@
                         </p>
                     </div>
                     <?php if($isOwnProfile): ?>
-                        <a href="/logout" class="flex items-center gap-2 px-3 py-2 text-sm font-medium
-                                text-gray-600 dark:text-gray-300
-                                hover:text-gray-900 dark:hover:text-white
-                                hover:bg-gray-100 dark:hover:bg-gray-800
-                                rounded-lg transition">
-                            <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                            Logout
-                        </a>
+                        <div class="flex items-center gap-2">
+                            <a href="/write" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                                <i class="fa-solid fa-feather-pointed text-xs"></i>
+                                Write
+                            </a>
+                            <a href="/logout" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg transition">
+                                <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                                Logout
+                            </a>
+                        </div>
                     <?php else: ?>
                         <?php if (!$authUser): ?>
                             <a href="/login" class="px-3 py-2 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
                                 Login to follow
                             </a>
                         <?php elseif ($isFollowing): ?>
-                            <a href="/reading-list" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-lg hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-200 dark:border-emerald-700 dark:hover:bg-emerald-900/50 transition">
-                                <i class="fa-solid fa-check text-xs"></i>
-                                Following
-                            </a>
+                            <form action="/reading-list/unfollow" method="POST">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="username" value="<?= e($user['username']) ?>">
+                                <button class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 text-sm font-medium bg-gray-100 text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-200 dark:border-slate-600 dark:hover:bg-slate-700 transition">
+                                    <i class="fa-solid fa-user-minus text-xs"></i>
+                                    Unfollow
+                                </button>
+                            </form>
                         <?php else: ?>
                             <form action="/reading-list" method="POST">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="username" value="<?= e($user['username']) ?>">
-                                <button class="cursor-pointer px-3 py-2 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+                                <button class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 text-sm bg-blue-500 hover:bg-blue-600 font-medium rounded-lg transition">
+                                    <i class="fa-solid fa-user-plus text-xs"></i>
                                     Follow
                                 </button>
                             </form>
@@ -57,16 +64,51 @@
                     <?php endif ?>
                 </div>
 
+                <?php if ($isOwnProfile && isset($_GET['updated']) && $_GET['updated'] === '1'): ?>
+                    <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:border-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200">
+                        Profile bio updated.
+                    </div>
+                <?php endif; ?>
+
                 <!-- Bio -->
-                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mb-6">
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mb-3">
                     <?= e($user['bio'] ?? 'No bio provided.') ?>
                 </p>
+
+                <?php if($isOwnProfile): ?>
+                    <details class="max-w-2xl mb-6">
+                        <summary class="cursor-pointer inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                            <i class="fa-solid fa-pen-to-square text-xs"></i>
+                            Edit bio
+                        </summary>
+                        <form action="/profile/update" method="POST" class="mt-3">
+                            <?= csrf_field() ?>
+                            <textarea
+                                id="bio"
+                                name="bio"
+                                rows="2"
+                                maxlength="500"
+                                class="w-full rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Write something about yourself..."
+                            ><?= e($user['bio'] ?? '') ?></textarea>
+                            <div class="mt-3">
+                                <button type="submit" class="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition">
+                                    Save Profile
+                                </button>
+                            </div>
+                        </form>
+                    </details>
+                <?php endif; ?>
 
                 <!-- Stats -->
                 <div class="flex gap-8 text-sm">
                     <div>
                         <span class="font-semibold text-gray-900 dark:text-white"> <?= count($posts) ?> </span>
                         <span class="text-gray-500 dark:text-gray-400 ml-1">Posts</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-gray-900 dark:text-white"> <?= (int)($followersCount ?? 0) ?> </span>
+                        <span class="text-gray-500 dark:text-gray-400 ml-1">Followers</span>
                     </div>
                 </div>
             </div>

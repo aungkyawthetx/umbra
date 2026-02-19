@@ -13,6 +13,7 @@
     $router->get('/profile', 'ProfileController@show');
     $router->get('/posts', 'BlogController@posts');
     $router->get('/reading-list', 'ProfileController@readingList');
+    $router->post('/profile/update', 'ProfileController@update');
 
     // auth routes 
     $router->get('/register', 'AuthController@registerForm');
@@ -23,5 +24,6 @@
 
     $router->get('/terms-and-conditions', 'UserController@terms');
     $router->post('/reading-list', 'ProfileController@store');
+    $router->post('/reading-list/unfollow', 'ProfileController@unfollow');
 
 ?>
