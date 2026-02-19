@@ -28,6 +28,8 @@ class ProfileController extends Controller
 
     public function show()
     {
+        require_auth();
+
         $username = $_GET['username'] ?? null;
         $authUser = auth();
         if (!$username) {

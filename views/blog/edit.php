@@ -96,7 +96,7 @@
             </label>
             <?php $coverSrc = !empty($post['cover_image']) ? '/uploads/' . e($post['cover_image']) : ''; ?>
             <div id="edit-image-preview-wrap" class="<?= $coverSrc ? '' : 'hidden' ?>">
-                <img
+                <img    
                     id="edit-image-preview"
                     src="<?= $coverSrc ?>"
                     data-existing-src="<?= $coverSrc ?>"
