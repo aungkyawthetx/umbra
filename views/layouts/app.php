@@ -105,10 +105,10 @@
         <?= $content ?>
     </main>
     <footer class="text-center text-xs tracking-wide text-neutral-500 py-10 dark:text-blue-300">
-        &copy; <?= date('Y') ?> Umbra · Built for thinking
+        &copy; <?= date('Y') ?> Umbra · Made with love ❤️ by Aung Kyaw Thet<br>
+        <a href="/terms-and-conditions" class="hover:underline">Terms and Conditions</a>
     </footer>
-
-
+    
     <script>
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');

@@ -34,6 +34,16 @@ class AuthController extends Controller
       die('Username may contain letters, numbers, and underscores only');
     }
 
+    if (preg_match('/\s/', $username)) {
+      die('Username cannot contain spaces');
+    }
+
+    $usernameCheck = $db->prepare("SELECT id FROM users WHERE username = ? LIMIT 1");
+    $usernameCheck->execute([$username]);
+    if ($usernameCheck->fetch(PDO::FETCH_ASSOC)) {
+      die('Username already exists');
+    }
+
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $stmt = $db->prepare("INSERT INTO users (name, username, email, password) VALUES (?, ?, ?, ?)");
@@ -58,13 +68,30 @@ class AuthController extends Controller
     verify_csrf();
     $db = Database::connect();
 
-    $email = $_POST['email'] ?? '';
+    $identifier = trim($_POST['identifier'] ?? '');
     $password = $_POST['password'] ?? '';
-    if (!$email || !$password) {
+    if (!$identifier || !$password) {
       die('All fields are required');
     }
-    $stmt = $db->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-    $stmt->execute([$email]);
+
+    $isEmailLogin = str_contains($identifier, '@');
+    if ($isEmailLogin) {
+      if (!filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+        die('Invalid email');
+      }
+      $stmt = $db->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+      $stmt->execute([$identifier]);
+    } else {
+      if (preg_match('/\s/', $identifier)) {
+        die('Username cannot contain spaces');
+      }
+      if (!preg_match('/^[a-zA-Z0-9_]+$/', $identifier)) {
+        die('Username may contain letters, numbers, and underscores only');
+      }
+      $stmt = $db->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
+      $stmt->execute([$identifier]);
+    }
+
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user || !password_verify($password, $user['password'])) {
