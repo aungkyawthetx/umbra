@@ -8,10 +8,10 @@
             <span class="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
                 Write. Reflect.
             </span>
-            <span class="text-gray-900 dark:text-gray-300 mt-2">Share.</span>
+            <span class="text-gray-800 dark:text-gray-300 mt-2">Share.</span>
         </h1>
         <p class="text-md md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-            A minimalist space to publish your thoughts, essays, and ideas without distractions.
+            A place for thoughts, a place for knowledge.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
