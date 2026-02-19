@@ -36,7 +36,7 @@
                     
                     <?php if(is_logged_in()): ?>
                         <a href="/reading-list" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
-                            Reading List
+                            Reading
                         </a>
                         <a href="/profile?username=<?= e($_SESSION['user']['username']) ?>" 
                             class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
