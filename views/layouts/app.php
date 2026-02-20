@@ -102,6 +102,23 @@
     </header>
 
     <main class="flex-1 max-w-5xl mx-auto px-2 md:px-6 pt-28 pb-10 w-full">
+        <?php if ($flash = pull_flash()): ?>
+            <?php
+                $flashType = $flash['type'] ?? 'info';
+                $flashClasses = 'bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-900/30 dark:text-blue-100 dark:border-blue-800';
+                if ($flashType === 'success') {
+                    $flashClasses = 'bg-emerald-50 text-emerald-900 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-100 dark:border-emerald-800';
+                } elseif ($flashType === 'error') {
+                    $flashClasses = 'bg-rose-50 text-rose-900 border-rose-200 dark:bg-rose-900/30 dark:text-rose-100 dark:border-rose-800';
+                } elseif ($flashType === 'warning') {
+                    $flashClasses = 'bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-900/30 dark:text-amber-100 dark:border-amber-800';
+                }
+            ?>
+            <div class="mb-6 rounded-2xl border px-4 py-3 text-sm <?= $flashClasses ?>">
+                <?= e($flash['message'] ?? '') ?>
+            </div>
+        <?php endif; ?>
+
         <?= $content ?>
     </main>
 
