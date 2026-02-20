@@ -29,6 +29,8 @@
             name="username"
             class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="yourname123"
+            pattern="^[A-Za-z0-9_]+$"
+            title="Username can contain only letters, numbers, and underscores (no spaces)."
             required
           >
         </div>

@@ -7,16 +7,16 @@
             Welcome back
         </h1>
 
-        <!-- Email -->
+        <!-- Username or Email -->
         <div class="mb-5">
             <label class="block text-sm mb-2 text-gray-600 dark:text-gray-400">
-                Email
+                Username or Email
             </label>
             <input 
-                type="email" 
-                name="email" 
+                type="text"
+                name="identifier"
                 class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-slate-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Enter your email"
+                placeholder="Enter your username or email"
                 required
             >
         </div>

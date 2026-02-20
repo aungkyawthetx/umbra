@@ -92,7 +92,8 @@ class BlogController extends Controller
 
         $db = Database::connect();
         $stmt = $db->prepare("
-            SELECT posts.*, users.name AS author_name,
+            SELECT posts.*, users.name AS author_name, users.username AS author_username,
+                   (posts.status = 'published' OR (posts.status = 'scheduled' AND posts.scheduled_at <= NOW())) AS is_publicly_visible,
                    GROUP_CONCAT(DISTINCT tags.name ORDER BY tags.name SEPARATOR ',') AS tags
             FROM posts
             LEFT JOIN users ON posts.user_id = users.id
@@ -111,7 +112,7 @@ class BlogController extends Controller
         }
 
         $isOwner = is_logged_in() && (int)$_SESSION['user']['id'] === (int)$post['user_id'];
-        $isPublished = $post['status'] === 'published' || ($post['status'] === 'scheduled' && $post['scheduled_at'] && strtotime($post['scheduled_at']) <= time());
+        $isPublished = (bool)($post['is_publicly_visible'] ?? false);
 
         if (!$isOwner && !$isPublished) {
             http_response_code(404);

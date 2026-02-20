@@ -11,6 +11,7 @@
     </div>
 
     <form method="GET" action="/posts" class="mb-10 flex flex-col md:flex-row gap-4">
+        <?php $hasFilters = trim((string)($q ?? '')) !== '' || trim((string)($tag ?? '')) !== ''; ?>
         <input
             type="text"
             name="q"
@@ -25,10 +26,17 @@
             placeholder="Filter by tag"
             class="md:w-56 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
         >
-        <button class="py-2 px-5 font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg flex items-center gap-1">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            Search
-        </button>
+        <?php if ($hasFilters): ?>
+            <a href="/posts" class="w-full md:w-auto py-2 px-5 font-medium bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-gray-800 dark:text-gray-100 rounded-lg inline-flex items-center justify-center gap-2">
+                <i class="fa-solid fa-xmark"></i>
+                Clear
+            </a>
+        <?php else: ?>
+            <button class="w-full md:w-auto py-2 px-5 font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg inline-flex items-center justify-center gap-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+            </button>
+        <?php endif; ?>
     </form>
 
     <div class="space-y-12">

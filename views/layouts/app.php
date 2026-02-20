@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@100..900&display=swap" rel="stylesheet">
     <link href="/assets/css/output.css" rel="stylesheet">
-    <link href="/assets/css/input.css" rel="stylesheet">
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-slate-100 theme-transition">
@@ -85,10 +84,8 @@
                     </a>
                     <?php if(is_logged_in()): ?>
                         <a href="/reading-list" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 6h14M5 12h14M5 18h14" />
-                            </svg>
-                            Reading List
+                            <i class="fa-solid fa-list"></i>
+                            Reading
                         </a>
                         <a href="/profile?username=<?= e($_SESSION['user']['username']) ?>" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,10 +103,10 @@
         <?= $content ?>
     </main>
     <footer class="text-center text-xs tracking-wide text-neutral-500 py-10 dark:text-blue-300">
-        &copy; <?= date('Y') ?> Umbra · Built for thinking
+        &copy; <?= date('Y') ?> Umbra · Made with love ❤️ by Aung Kyaw Thet<br>
+        <a href="/terms-and-conditions" class="hover:underline">Terms and Conditions</a>
     </footer>
-
-
+    
     <script>
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
