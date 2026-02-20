@@ -29,7 +29,7 @@
                 <div class="relative">
                     <input
                         name="title"
-                        placeholder="What are you yout things about?"
+                        placeholder="What are you thinking about?"
                         class="w-full p-5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:border-blue-400 dark:focus:border-blue-400 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500 hover:bg-white dark:hover:bg-gray-800 text-gray-900 dark:text-white"
                         required
                         autofocus

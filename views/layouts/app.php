@@ -99,9 +99,10 @@
         </div>
     </header>
 
-    <main class="flex-1 max-w-5xl mx-auto px-6 pt-28 pb-10 w-full">
+    <main class="flex-1 max-w-5xl mx-auto px-2 md:px-6 pt-28 pb-10 w-full">
         <?= $content ?>
     </main>
+
     <footer class="text-center text-xs tracking-wide text-neutral-500 py-10 dark:text-blue-300">
         &copy; <?= date('Y') ?> Umbra · Made with love ❤️ by Aung Kyaw Thet<br>
         <a href="/terms-and-conditions" class="hover:underline">Terms and Conditions</a>
