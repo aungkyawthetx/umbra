@@ -23,7 +23,7 @@
         <img src="/uploads/<?= e($post['cover_image']) ?>" class="rounded mb-10">
     <?php endif; ?>
 
-    <p class="blog-content prose prose-neutral dark:prose-invert font-medium max-w-none leading-relaxed text-lg text-justify prose-p:my-6 prose-p:leading-8 prose-headings:mt-8 prose-headings:mb-4 prose-li:my-2"> 
+    <p class="blog-content prose prose-neutral dark:prose-invert font-medium max-w-none leading-relaxed text-lg prose-p:my-6 prose-p:leading-8 prose-headings:mt-8 prose-headings:mb-4 prose-li:my-2"> 
         <?= nl2br(e($post['content'])) ?> 
     </p>
 
