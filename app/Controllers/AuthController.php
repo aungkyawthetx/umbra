@@ -50,6 +50,7 @@ class AuthController extends Controller
 
     try {
       $stmt->execute([$name, $username, $email, $hashedPassword]);
+      flash('Welcome to Umbra. Your account is ready. Please sign in.', 'success');
       header('Location: /login');
     } catch (PDOException $e) {
       die('Username or email already exists');

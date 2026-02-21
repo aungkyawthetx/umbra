@@ -36,4 +36,24 @@
     }
   }
 
+  function flash(string $message, string $type = 'success'): void
+  {
+    $_SESSION['_flash'] = [
+      'message' => $message,
+      'type' => $type
+    ];
+  }
+
+  function pull_flash(): ?array
+  {
+    if (!isset($_SESSION['_flash'])) {
+      return null;
+    }
+
+    $flash = $_SESSION['_flash'];
+    unset($_SESSION['_flash']);
+
+    return $flash;
+  }
+
 ?>
