@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Umbra - A place for thoughts, a place for knowledge" />
+    <meta property="og:description" content="A minimalist blog platform for thoughtful writing." />
+    <meta property="og:image" content="https://umbra.lovestoblog.com/og-image.png" />
+    <meta property="og:url" content="https://umbra.lovestoblog.com/" />
+    <meta property="og:type" content="website" />
     <title>Umbra</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
