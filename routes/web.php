@@ -10,6 +10,8 @@
     $router->post('/blog/delete', 'BlogController@delete');
     $router->post('/comment', 'BlogController@comment');
     $router->post('/like', 'BlogController@like');
+    $router->get('/notifications', 'BlogController@notifications');
+    $router->post('/notifications/read', 'BlogController@markNotificationsRead');
     $router->get('/profile', 'ProfileController@show');
     $router->get('/posts', 'BlogController@posts');
     $router->get('/reading-list', 'ProfileController@readingList');
