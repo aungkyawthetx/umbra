@@ -13,6 +13,23 @@
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
   }
 
+  function base_url(): string
+  {
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+    return $scheme . '://' . $host;
+  }
+
+  function current_url(bool $withQuery = true): string
+  {
+    $path = $_SERVER['REQUEST_URI'] ?? '/';
+    if (!$withQuery) {
+      $path = parse_url($path, PHP_URL_PATH) ?: '/';
+    }
+    return base_url() . $path;
+  }
+
   function csrf_token(): string
   {
     if (empty($_SESSION['_csrf'])) {

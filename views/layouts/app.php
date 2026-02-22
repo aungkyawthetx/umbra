@@ -6,53 +6,153 @@
         $notificationCountStmt->execute([(int)$_SESSION['user']['id']]);
         $notificationUnreadCount = (int)$notificationCountStmt->fetchColumn();
     }
+
+    $siteName = 'Umbra';
+    $defaultDescription = 'Umbra is a minimalist blog platform for thoughtful writing, reading, and reflection.';
+    $defaultImage = base_url() . '/assets/favicon.png';
+    $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+
+    $seoTitle = $siteName;
+    $seoDescription = $defaultDescription;
+    $seoCanonical = current_url(false);
+    $seoRobots = 'index,follow,max-image-preview:large';
+    $seoOgType = 'website';
+    $seoOgImage = $defaultImage;
+    $seoJsonLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => $siteName,
+        'url' => base_url(),
+        'description' => $defaultDescription
+    ];
+
+    if ($requestPath === '/') {
+        $seoTitle = 'Umbra - A place for thoughts, a place for knowledge';
+        $seoDescription = 'Write and read thoughtful posts on Umbra. A clean, distraction-free blog platform.';
+    } elseif ($requestPath === '/posts') {
+        $seoTitle = 'Explore Posts - Umbra';
+        $seoDescription = 'Browse the latest thoughtful writing on Umbra.';
+        if (!empty($_GET['q'])) {
+            $seoRobots = 'noindex,follow';
+        }
+    } elseif ($requestPath === '/terms-and-conditions') {
+        $seoTitle = 'Terms and Conditions - Umbra';
+    } elseif ($requestPath === '/login') {
+        $seoTitle = 'Login | Umbra';
+        $seoRobots = 'noindex,nofollow';
+    } elseif ($requestPath === '/register') {
+        $seoTitle = 'Register | Umbra';
+        $seoRobots = 'noindex,nofollow';
+    } elseif ($requestPath === '/write' || $requestPath === '/blog/edit' || $requestPath === '/reading-list') {
+        $seoRobots = 'noindex,nofollow';
+    }
+
+    if ($requestPath === '/profile' && isset($user['username'])) {
+        $seoTitle = ($user['name'] ?? $user['username']) . ' - Umbra';
+        $seoDescription = 'Read posts by ' . ($user['name'] ?? $user['username']) . ' on Umbra.';
+        $seoCanonical = base_url() . '/profile?username=' . urlencode((string)$user['username']);
+        $seoRobots = 'noindex,nofollow';
+    }
+
+    if (($requestPath === '/blog' || preg_match('#^/blog/\d+/?$#', $requestPath)) && isset($post['id'])) {
+        $postTitle = (string)($post['title'] ?? 'Post');
+        $postExcerpt = trim(strip_tags((string)($post['content'] ?? '')));
+        $postExcerpt = mb_substr($postExcerpt, 0, 160, 'UTF-8');
+
+        $seoTitle = $postTitle . ' - Umbra';
+        $seoDescription = $postExcerpt !== '' ? $postExcerpt : $defaultDescription;
+        $seoCanonical = base_url() . '/blog/' . (int)$post['id'];
+        $seoOgType = 'article';
+        if (!empty($post['cover_image'])) {
+            $seoOgImage = base_url() . '/uploads/' . $post['cover_image'];
+        }
+
+        $seoJsonLd = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => $postTitle,
+            'description' => $seoDescription,
+            'url' => $seoCanonical,
+            'image' => $seoOgImage,
+            'datePublished' => $post['published_at'] ?? $post['created_at'] ?? null,
+            'dateModified' => $post['updated_at'] ?? $post['created_at'] ?? null,
+            'author' => [
+                '@type' => 'Person',
+                'name' => $post['author_name'] ?? 'Umbra Author'
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => $siteName
+            ]
+        ];
+    }
+
+    $seoTitle = trim($seoTitle);
+    $seoDescription = trim($seoDescription);
+    if ($seoDescription === '') {
+        $seoDescription = $defaultDescription;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="Umbra - A place for thoughts, a place for knowledge" />
-    <meta property="og:description" content="A minimalist blog platform for thoughtful writing." />
-    <meta property="og:image" content="https://umbra.lovestoblog.com/og-image.png" />
-    <meta property="og:url" content="https://umbra.lovestoblog.com/" />
-    <meta property="og:type" content="website" />
-    <title>Umbra</title>
+    <title><?= e($seoTitle) ?></title>
+    <meta name="description" content="<?= e($seoDescription) ?>">
+    <meta name="robots" content="<?= e($seoRobots) ?>">
+    <link rel="canonical" href="<?= e($seoCanonical) ?>">
+
+    <meta property="og:title" content="<?= e($seoTitle) ?>">
+    <meta property="og:description" content="<?= e($seoDescription) ?>">
+    <meta property="og:image" content="<?= e($seoOgImage) ?>">
+    <meta property="og:url" content="<?= e($seoCanonical) ?>">
+    <meta property="og:type" content="<?= e($seoOgType) ?>">
+    <meta property="og:site_name" content="Umbra">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= e($seoTitle) ?>">
+    <meta name="twitter:description" content="<?= e($seoDescription) ?>">
+    <meta name="twitter:image" content="<?= e($seoOgImage) ?>">
+
+    <script type="application/ld+json"><?= json_encode($seoJsonLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@100..900&display=swap" rel="stylesheet">
-    <link href="./assets/css/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&family=Noto+Sans+Myanmar:wght@100..900&display=swap" rel="stylesheet">
+    <link href="/assets/css/output.css" rel="stylesheet">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
 </head>
 
 <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-slate-100 theme-transition">
-    <header class="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg z-50 border-b border-gray-200/50 dark:border-gray-700/50">
+    <header class="fixed w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 border-b border-gray-200/50 dark:border-gray-700/50">
         <div class="max-w-5xl mx-auto px-6 py-3 md:py-4">
             <div class="flex items-center justify-between">
-                <a href="/" class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-200">
-                    Umbra
+                <a href="/" class="text-lg md:text-2xl uppercase font-semibold tracking-tight text-gray-900 dark:text-gray-100" style="font-family: 'Manrope', 'Noto Sans Myanmar', sans-serif;">
+                    <Umbra></Umbra>
                 </a>
 
                 <!-- Navigation -->
-                <nav class="hidden md:flex items-center gap-1">
-                    <a href="/" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
+                <nav class="hidden md:flex items-center" style="font-family: 'Manrope', 'Noto Sans Myanmar', sans-serif;">
+                    <a href="/" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
                         Home
                     </a>
                     
-                    <a href="/write" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
+                    <a href="/write" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
                         Write
                     </a>
                     
-                    <a href="/posts" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
+                    <a href="/posts" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
                         Posts
                     </a>
                     
                     <?php if(is_logged_in()): ?>
-                        <a href="/reading-list" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
-                            Reading
+                        <a href="/reading-list" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
+                            Personal Feed
                         </a>
                         <a href="/profile?username=<?= e($_SESSION['user']['username']) ?>" 
-                            class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:underline dark:hover:text-white transition-all duration-200">
+                            class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
                             Profile
                         </a>
 
@@ -60,7 +160,7 @@
                             <button
                                 type="button"
                                 id="notification-button"
-                                class="relative p-2 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                class="relative px-2 py-1 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                 aria-expanded="false"
                                 aria-haspopup="true"
                                 aria-label="Notifications"
@@ -102,7 +202,7 @@
 
             <!-- Mobile nav -->
             <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-200 dark:border-gray-700 pt-4">
-                <div class="flex flex-col gap-1">
+                <div class="flex flex-col gap-1" style="font-family: 'Manrope', 'Noto Sans Myanmar', sans-serif;">
                     <a href="/" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -124,7 +224,7 @@
                     <?php if(is_logged_in()): ?>
                         <a href="/reading-list" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                             <i class="fa-solid fa-list"></i>
-                            Reading
+                            Personal Feed
                         </a>
                         <a href="/profile?username=<?= e($_SESSION['user']['username']) ?>" class="flex items-center gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
