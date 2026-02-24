@@ -539,28 +539,6 @@ class BlogController extends Controller
         ]);
     }
 
-    private function uniqueSlug(string $title): string
-    {
-        $slug = trim(preg_replace('/[^\p{L}\p{N}]+/u', '-', $title));
-        $slug = mb_strtolower($slug, 'UTF-8');
-
-        $db = Database::connect();
-        $base = $slug ?: 'post';
-        $final = $base;
-        $i = 1;
-        $stmt = $db->prepare("SELECT 1 FROM posts WHERE slug = ? LIMIT 1");
-        while (true) {
-            $stmt->execute([$final]);
-            if (!$stmt->fetch()) {
-                break;
-            }
-            $i++;
-            $final = $base . '-' . $i;
-        }
-
-        return $final;
-    }
-
     private function handleImageUpload(?array $file): ?string
     {
         if (!$file || empty($file['name'])) {
