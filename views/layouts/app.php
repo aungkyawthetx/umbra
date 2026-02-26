@@ -130,29 +130,29 @@
         <div class="max-w-5xl mx-auto px-6 py-3 md:py-4">
             <div class="flex items-center justify-between">
                 <a href="/" class="text-lg md:text-2xl uppercase font-semibold tracking-tight text-gray-900 dark:text-gray-100" style="font-family: 'Manrope', 'Noto Sans Myanmar', sans-serif;">
-                    <Umbra></Umbra>
+                    Umbra
                 </a>
 
                 <!-- Navigation -->
                 <nav class="hidden md:flex items-center" style="font-family: 'Manrope', 'Noto Sans Myanmar', sans-serif;">
-                    <a href="/" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
+                    <a href="/" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full dark:hover:text-white transition-all duration-200">
                         Home
                     </a>
                     
-                    <a href="/write" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
+                    <a href="/write" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full dark:hover:text-white transition-all duration-200">
                         Write
                     </a>
                     
-                    <a href="/posts" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
+                    <a href="/posts" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full dark:hover:text-white transition-all duration-200">
                         Posts
                     </a>
                     
                     <?php if(is_logged_in()): ?>
-                        <a href="/reading-list" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
+                        <a href="/reading-list" class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full dark:hover:text-white transition-all duration-200">
                             Personal Feed
                         </a>
                         <a href="/profile?username=<?= e($_SESSION['user']['username']) ?>" 
-                            class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full hover:bg-gray-100 dark:hover:text-white transition-all duration-200">
+                            class="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-300 hover:text-blue-900 rounded-full dark:hover:text-white transition-all duration-200">
                             Profile
                         </a>
 
@@ -192,12 +192,40 @@
                     <?php endif; ?>
                 </nav>
 
-                <!-- Menu Icon -->
-                <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                    <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                <div class="md:hidden flex items-center gap-1">
+                    <?php if(is_logged_in()): ?>
+                        <div class="relative" id="mobile-notification-root">
+                            <button
+                                type="button"
+                                id="mobile-notification-button"
+                                class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                aria-label="Notifications"
+                            >
+                                <i class="fa-regular fa-bell text-gray-700 dark:text-gray-300"></i>
+                                <span id="mobile-notification-badge" class="<?= $notificationUnreadCount > 0 ? '' : 'hidden ' ?>absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-blue-600 text-white text-[11px] leading-5 text-center font-semibold">
+                                    <?= (int)$notificationUnreadCount ?>
+                                </span>
+                            </button>
+                            <div id="mobile-notification-dropdown" class="hidden absolute right-0 mt-3 w-80 max-w-[90vw] max-h-96 overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-xl z-50">
+                                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Notifications</h3>
+                                    <button type="button" id="mobile-notification-mark-all" class="text-xs text-blue-600 dark:text-blue-400 hover:underline">Mark all read</button>
+                                </div>
+                                <div id="mobile-notification-list" class="divide-y divide-gray-100 dark:divide-gray-800"></div>
+                                <p id="mobile-notification-empty" class="hidden px-4 py-6 text-sm text-center text-gray-500 dark:text-gray-400">No notifications yet.</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Menu Icon -->
+                    <button id="mobile-menu-button" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <svg class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <!-- Mobile nav -->
@@ -232,23 +260,6 @@
                             </svg>
                             Profile
                         </a>
-                        <button type="button" id="mobile-notification-button" class="flex items-center justify-between gap-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors w-full text-left">
-                            <span class="flex items-center gap-3">
-                                <i class="fa-regular fa-bell"></i>
-                                Notifications
-                            </span>
-                            <span id="mobile-notification-badge" class="<?= $notificationUnreadCount > 0 ? '' : 'hidden ' ?>min-w-5 h-5 px-1 rounded-full bg-blue-600 text-white text-[11px] leading-5 text-center font-semibold">
-                                <?= (int)$notificationUnreadCount ?>
-                            </span>
-                        </button>
-                        <div id="mobile-notification-dropdown" class="hidden mx-4 mb-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-                            <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
-                                <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Notifications</h3>
-                                <button type="button" id="mobile-notification-mark-all" class="text-xs text-blue-600 dark:text-blue-400 hover:underline">Mark all read</button>
-                            </div>
-                            <div id="mobile-notification-list" class="divide-y divide-gray-100 dark:divide-gray-800"></div>
-                            <p id="mobile-notification-empty" class="hidden px-4 py-6 text-sm text-center text-gray-500 dark:text-gray-400">No notifications yet.</p>
-                        </div>
                     <?php endif ?>
                 </div>
             </div>
@@ -411,6 +422,14 @@
                 mobileNotificationDropdown.classList.toggle('hidden');
                 if (!mobileNotificationDropdown.classList.contains('hidden')) {
                     await loadNotifications();
+                }
+            });
+
+            document.addEventListener('click', function (event) {
+                const root = document.getElementById('mobile-notification-root');
+                if (!root) return;
+                if (!root.contains(event.target)) {
+                    mobileNotificationDropdown.classList.add('hidden');
                 }
             });
         }
